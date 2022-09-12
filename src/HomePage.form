@@ -115,7 +115,9 @@
         <children>
           <component id="ea475" class="javax.swing.JLabel">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="86" height="18"/>
+              </grid>
             </constraints>
             <properties>
               <font name="Leelawadee" size="14" style="0"/>
@@ -178,7 +180,9 @@
           </component>
           <component id="4b9f8" class="javax.swing.JLabel">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="86" height="18"/>
+              </grid>
             </constraints>
             <properties>
               <font name="Leelawadee" size="14" style="0"/>
@@ -187,7 +191,9 @@
           </component>
           <component id="e6c75" class="javax.swing.JButton" binding="A01">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="86" height="30"/>
+              </grid>
             </constraints>
             <properties>
               <font name="Leelawadee" size="14" style="0"/>
@@ -231,7 +237,9 @@
           </component>
           <component id="6680d" class="javax.swing.JButton" binding="B01">
             <constraints>
-              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="86" height="30"/>
+              </grid>
             </constraints>
             <properties>
               <font name="Leelawadee" size="14" style="0"/>
@@ -275,7 +283,9 @@
           </component>
           <component id="e1eae" class="javax.swing.JButton" binding="C01">
             <constraints>
-              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="86" height="30"/>
+              </grid>
             </constraints>
             <properties>
               <font name="Leelawadee" size="14" style="0"/>
@@ -284,7 +294,7 @@
               <text value="C01"/>
             </properties>
           </component>
-          <component id="de036" class="javax.swing.JButton" default-binding="true">
+          <component id="de036" class="javax.swing.JButton" binding="C02">
             <constraints>
               <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -319,7 +329,9 @@
           </component>
           <component id="fc964" class="javax.swing.JButton" binding="D01">
             <constraints>
-              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="86" height="30"/>
+              </grid>
             </constraints>
             <properties>
               <font name="Leelawadee" size="14" style="0"/>
@@ -363,12 +375,16 @@
           </component>
           <vspacer id="3c2cd">
             <constraints>
-              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <preferred-size width="86" height="14"/>
+              </grid>
             </constraints>
           </vspacer>
           <vspacer id="fe07a">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <preferred-size width="86" height="14"/>
+              </grid>
             </constraints>
           </vspacer>
           <grid id="5a141" layout-manager="GridLayoutManager" row-count="1" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
