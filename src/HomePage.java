@@ -12,9 +12,11 @@ public class HomePage extends JFrame {
     Booking b = new Booking();
     CalendarDateInDateOut c = new CalendarDateInDateOut();
     CalendarSearch s = new CalendarSearch();
-    String in,out;
-    long daysBetween;
+    static long daysBetween;
     static String room_id;
+    static String dateStart;
+    static String dateEnd;
+
     public static void main(String[] args) throws ParseException {
         UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
         UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
@@ -43,14 +45,13 @@ public class HomePage extends JFrame {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         buttonSearch.setSelected(true);
-                         in = c.pattern.format(s.jdIn.getDate());
-                         out = c.pattern.format(s.jdOut.getDate());
+                        dateStart = c.pattern.format(s.jdIn.getDate());
+                        dateEnd = c.pattern.format(s.jdOut.getDate());
                         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                        LocalDate date1 = LocalDate.parse(in, df);
-                        LocalDate date2 = LocalDate.parse(out, df);
+                        LocalDate date1 = LocalDate.parse(dateStart, df);
+                        LocalDate date2 = LocalDate.parse(dateEnd, df);
                         daysBetween = ChronoUnit.DAYS.between(date1, date2);
-                        System.out.println(in +"\n"+ out);
-
+                        System.out.println(dateStart +"\n"+ dateEnd);
                     }
                 });
         buttonBooking.addMouseListener(new MouseAdapter() {
@@ -129,11 +130,10 @@ public class HomePage extends JFrame {
         return null;
     }
 
-
 void MSearch(){
-    b.in.setText(in);
-    b.out.setText(out);
-    b.day.setText(String.valueOf(daysBetween) + "\t วัน");
+    b.in.setText(dateStart);
+    b.out.setText(dateEnd);
+    b.day.setText(String.valueOf(daysBetween));
     b.BookingRoom(room_id);
     b.setVisible(true);
 }
@@ -141,13 +141,10 @@ void MSearch(){
 void CSearch(){
     b.in.setText(s.in);
     b.out.setText(s.out);
-    b.day.setText(String.valueOf(s.daysBetween) + "\t วัน");
+    b.day.setText(String.valueOf(s.daysBetween) );
     b.BookingRoom(room_id);
     b.setVisible(true);
 }
-
-
-
 
     private JPanel home;
     private JButton ออกจากระบบButton;
@@ -177,4 +174,5 @@ void CSearch(){
     private JButton D04;
     private JButton D03;
     private JButton C02;
+    JLabel emp_name;
 }

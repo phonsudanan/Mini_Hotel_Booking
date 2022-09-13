@@ -3,10 +3,15 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Date;
 
 public class Booking extends JFrame {
     private Connection conn = Connect.ConnectDB();
+    private CalendarDateInDateOut c = new CalendarDateInDateOut();
+
+
     public static void main(String[] args) {
         UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
         UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
@@ -34,9 +39,39 @@ public class Booking extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 int result = JOptionPane.showConfirmDialog(null,"ยืนยันการจองห้องพัก ?","ยืนยันการจอง",JOptionPane.YES_NO_OPTION);
                 if(result == JOptionPane.YES_OPTION){
+                    try {
+                        HomePage h = new HomePage();
+                        Login l = new Login();
+                        int d1 = Integer.parseInt(day.getText());
+                        int d2 = Integer.parseInt(price.getText());
+                        int totalPrice = d1*d2;
+                        Date now = new Date();
+//                        DecimalFormat dF = new DecimalFormat("#,###.00");
+                        String sql = "INSERT INTO booking (booking_no,booking_date,check_in,check_out,days,customer_name,customer_phone,room_number,emp_name,total_price) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
+                        PreparedStatement pre = conn.prepareStatement(sql);
+                        pre.setString(1, null);
+                        pre.setString(2, c.pattern.format(now));
+                        pre.setString(3, in.getText());
+                        pre.setString(4, out.getText());
+                        pre.setInt(5, Integer.parseInt(day.getText()));
+                        pre.setString(6, customerName.getText());
+                        pre.setString(7, customerPhone.getText());
+                        pre.setString(8, room.getText());
+                        pre.setString(9, l.uName);
+                        pre.setInt(10, totalPrice);
+                        if (pre.executeUpdate() != -1) {
                     JOptionPane.showMessageDialog(null,"การจองสำเร็จ");
+                        customerName.setText("");
+                        customerPhone.setText("");
                     setVisible(false);
+
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+
                 }
             }
         });
@@ -65,12 +100,13 @@ try {
     private JPanel home;
     private JButton CANCELButton;
     private JButton CONFIRMButton;
-    private JTextField customer;
+    private JTextField customerName;
     private JLabel area;
     private JLabel bed;
     private JLabel price;
     private JLabel room;
     public JLabel in;
     public JLabel out;
-    public JLabel day;
+    public  JLabel day;
+    private JTextField customerPhone;
 }
