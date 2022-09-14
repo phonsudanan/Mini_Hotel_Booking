@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -12,6 +15,9 @@ public class HomePage extends JFrame {
     Booking b = new Booking();
     CalendarDateInDateOut c = new CalendarDateInDateOut();
     CalendarSearch s = new CalendarSearch();
+    private Connection con = Connect.ConnectDB();
+    PreparedStatement pre = null;
+    ResultSet rs = null;
     static long daysBetween;
     static String room_id;
     static String dateStart;
@@ -52,9 +58,42 @@ public class HomePage extends JFrame {
                         LocalDate date2 = LocalDate.parse(dateEnd, df);
                         daysBetween = ChronoUnit.DAYS.between(date1, date2);
                         System.out.println(dateStart +"\n"+ dateEnd);
+//                        String command = ((JButton) e.getSource()).getActionCommand();
+
+
+//                        try {
+//                            String sql = "SELECT room_number FROM minihotel.room as r,minihotel.room_status as s where r.status_id = s.status_id AND r.status_id = 3";
+//                            pre = con.prepareStatement(sql);
+//                            rs = pre.executeQuery(sql);
+//                            //A03
+////                                String command = ((JButton) e.getSource()).getActionCommand();  // ชื่อที่คลิก
+//                            String room = rs.getString("room_number");
+//                            while (rs.next()) {
+//
+//                                for(JButton btn : (JButton)){
+//                                    if(event.getSource().equals(btn)){
+//
+//                                    }
+//                                }
+//
+//
+//
+////                               (JButton) e.getSource().getName.equals(room);
+////                            if(  ){
+//////JButton.getDefaultLocale().equals(rs.getString("room_number"))
+////
+////                            }
+//
+//                            }
+//
+//
+//                        } catch (Exception ex) {
+//                           ex.printStackTrace();
+//                        }
+
                     }
                 });
-        buttonBooking.addMouseListener(new MouseAdapter() {
+        bookingButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 s.setVisible(true);
@@ -148,11 +187,11 @@ void CSearch(){
 
     private JPanel home;
     private JButton ออกจากระบบButton;
-    private JButton buttonBooking;
+    private JButton bookingButton;
     private JButton ดูข้อมูลการจองButton;
     private JButton ข้อมูลห้องพักButton;
     private JButton ข้อมูลพนักงานButton;
-    private JButton checkOutห้องพักButton;
+    private JButton checkOutButton;
     private JButton A01;
     private JButton A02;
     private JButton A03;
@@ -175,4 +214,6 @@ void CSearch(){
     private JButton D03;
     private JButton C02;
     JLabel emp_name;
+
+
 }

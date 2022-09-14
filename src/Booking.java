@@ -46,14 +46,19 @@ public class Booking extends JFrame {
                         int d2 = Integer.parseInt(price.getText());
                         int totalPrice = d1*d2;
                         Date now = new Date();
-//                        DecimalFormat dF = new DecimalFormat("#,###.00");
-                        String sql = "INSERT INTO booking (booking_no,booking_date,check_in,check_out,days,customer_name,customer_phone,room_number,emp_name,total_price) VALUES (?,?,?,?,?,?,?,?,?,?)";
+                        Date parseDateIn = c.pattern.parse(in.getText());
+                        Date parseDateOut = c.pattern.parse(out.getText());
+//                        System.out.println(c.patternSQL.format(now));
+//                        System.out.println(c.patternSQL.format(parseDateIn));
+//                        System.out.println(c.patternSQL.format(parseDateOut));
+                        String sql = "INSERT INTO booking (booking_no,booking_date,check_in,check_out,days,customer_name,customer_phone," +
+                                "room_number,emp_name,total_price) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
                         PreparedStatement pre = conn.prepareStatement(sql);
                         pre.setString(1, null);
-                        pre.setString(2, c.pattern.format(now));
-                        pre.setString(3, in.getText());
-                        pre.setString(4, out.getText());
+                        pre.setString(2, c.patternSQL.format(now));
+                        pre.setString(3, c.patternSQL.format(parseDateIn));
+                        pre.setString(4, c.patternSQL.format(parseDateOut));
                         pre.setInt(5, Integer.parseInt(day.getText()));
                         pre.setString(6, customerName.getText());
                         pre.setString(7, customerPhone.getText());

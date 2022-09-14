@@ -136,16 +136,6 @@
               <text value="Reset"/>
             </properties>
           </component>
-          <component id="7a5cf" class="javax.swing.JButton" binding="register">
-            <constraints>
-              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag top="0" left="0" bottom="10" right="0" weightx="1.0" weighty="1.0"/>
-            </constraints>
-            <properties>
-              <font name="Leelawadee" size="16"/>
-              <text value="Register"/>
-            </properties>
-          </component>
         </children>
       </grid>
     </children>

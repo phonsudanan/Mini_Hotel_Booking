@@ -11,6 +11,7 @@ import java.time.temporal.ChronoUnit;
 
 public class CalendarSearch extends JFrame {
     Booking b = new Booking();
+    Login l = new Login();
     static CalendarDateInDateOut c = new CalendarDateInDateOut();
     JDateChooser d1  = c.CalendarIn();
     JDateChooser d2  = c.CalendarOut();
@@ -59,6 +60,7 @@ public class CalendarSearch extends JFrame {
                       jdOut = c.CalendarOut(out);
                     homePage.panelIn.add(jdIn, new GridBagLayout());
                     homePage.panelOut.add(jdOut, new GridBagLayout());
+                    homePage.emp_name.setText(l.uName);
                 } catch (ParseException ex) {
                     throw new RuntimeException(ex);
                 }

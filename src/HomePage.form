@@ -39,7 +39,7 @@
               <text value="NAME"/>
             </properties>
           </component>
-          <component id="7a2a5" class="javax.swing.JButton" binding="buttonBooking">
+          <component id="7a2a5" class="javax.swing.JButton" binding="bookingButton">
             <constraints>
               <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -75,7 +75,7 @@
               <text value="ข้อมูลพนักงาน"/>
             </properties>
           </component>
-          <component id="da0a1" class="javax.swing.JButton" binding="checkOutห้องพักButton" default-binding="true">
+          <component id="da0a1" class="javax.swing.JButton" binding="checkOutButton">
             <constraints>
               <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
