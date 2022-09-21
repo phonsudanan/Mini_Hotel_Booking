@@ -29,7 +29,7 @@ public class CalendarSearch extends JFrame {
     public CalendarSearch() throws ParseException {
         setTitle("เลือกวันที่เข้าพัก");
         setSize(600, 200);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setContentPane(home);
 
@@ -47,7 +47,7 @@ public class CalendarSearch extends JFrame {
                 LocalDate date1 = LocalDate.parse(in, df);
                 LocalDate date2 = LocalDate.parse(out, df);
                 daysBetween = ChronoUnit.DAYS.between(date1, date2);
-                System.out.println(in +"\n"+ out);
+//                System.out.println(in +"\n"+ out);
 
                 HomePage homePage = null;
                 try {
@@ -61,9 +61,11 @@ public class CalendarSearch extends JFrame {
                     homePage.panelIn.add(jdIn, new GridBagLayout());
                     homePage.panelOut.add(jdOut, new GridBagLayout());
                     homePage.emp_name.setText(l.uName);
+                    homePage.ChangeStatusRoom();
                 } catch (ParseException ex) {
                     throw new RuntimeException(ex);
                 }
+
                 homePage.setVisible(true);
                 setVisible(false);
             }

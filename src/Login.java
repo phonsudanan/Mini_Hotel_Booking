@@ -17,7 +17,7 @@ public class Login extends JFrame{
     private JButton logIn;
     private JButton reset;
 
-    public  static  String uName;
+    public  static  String uName,level;
     public static void main(String[] args) throws ParseException {
         new Login().setVisible(true);
     }
@@ -42,12 +42,13 @@ public class Login extends JFrame{
                 String u = userName.getText().trim();
                 String p = new String(password.getPassword());
                 try {
-                    String sql = "SELECT username,password,name FROM employee";
+                    String sql = "SELECT username,password,name,level FROM employee";
                     PreparedStatement pre = con.prepareStatement(sql);
                     ResultSet rs = pre.executeQuery(sql);
                     while (rs.next()){
                         if ( rs.getString("username").equals(u) && rs.getString("password").equals(p) ){
                             uName = rs.getString("name");
+                            level = rs.getString("level");
                             CalendarSearch s = new CalendarSearch();
                             s.setVisible(true);
                             setVisible(false);

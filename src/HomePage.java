@@ -10,8 +10,10 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 
 public class HomePage extends JFrame {
+    Login l = new Login();
     Booking b = new Booking();
     CalendarDateInDateOut c = new CalendarDateInDateOut();
     CalendarSearch s = new CalendarSearch();
@@ -19,9 +21,12 @@ public class HomePage extends JFrame {
     PreparedStatement pre = null;
     ResultSet rs = null;
     static long daysBetween;
-    static String room_id;
+    static int room_id;
     static String dateStart;
     static String dateEnd;
+    static  JDesktopPane desktop;
+    static  JLayeredPane layeredPane;
+
 
     public static void main(String[] args) throws ParseException {
         UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
@@ -30,73 +35,53 @@ public class HomePage extends JFrame {
     }
 
     public HomePage() throws ParseException {
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
-                         UnsupportedLookAndFeelException ex) {
-                    ex.printStackTrace();
-                }
-                UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
-                UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
-                setTitle("Homepage");
-                setSize(1000, 600);
-                setContentPane(home);
-                setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                setLocationRelativeTo(null);
+//                try {
+//                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+//                         UnsupportedLookAndFeelException ex) {
+//                    ex.printStackTrace();
+//                }
+        UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
+        UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
 
-                panelIn.setLayout(new BoxLayout(panelIn, BoxLayout.PAGE_AXIS));
-                panelOut.setLayout(new BoxLayout(panelOut, BoxLayout.PAGE_AXIS));
+        setTitle("Homepage");
+        setSize(1000,600);
+        setContentPane(home);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-                buttonSearch.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        buttonSearch.setSelected(true);
-                        dateStart = c.pattern.format(s.jdIn.getDate());
-                        dateEnd = c.pattern.format(s.jdOut.getDate());
-                        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                        LocalDate date1 = LocalDate.parse(dateStart, df);
-                        LocalDate date2 = LocalDate.parse(dateEnd, df);
-                        daysBetween = ChronoUnit.DAYS.between(date1, date2);
-                        System.out.println(dateStart +"\n"+ dateEnd);
-//                        String command = ((JButton) e.getSource()).getActionCommand();
+        desktop = new JDesktopPane();
+        layeredPane = getLayeredPane();
+        layeredPane.add(desktop, new Integer(1));
+        layeredPane.add(home, new Integer(2));
+
+        panelIn.setLayout(new BoxLayout(panelIn, BoxLayout.PAGE_AXIS));
+        panelOut.setLayout(new BoxLayout(panelOut, BoxLayout.PAGE_AXIS));
 
 
-//                        try {
-//                            String sql = "SELECT room_number FROM minihotel.room as r,minihotel.room_status as s where r.status_id = s.status_id AND r.status_id = 3";
-//                            pre = con.prepareStatement(sql);
-//                            rs = pre.executeQuery(sql);
-//                            //A03
-////                                String command = ((JButton) e.getSource()).getActionCommand();  // ชื่อที่คลิก
-//                            String room = rs.getString("room_number");
-//                            while (rs.next()) {
-//
-//                                for(JButton btn : (JButton)){
-//                                    if(event.getSource().equals(btn)){
-//
-//                                    }
-//                                }
-//
-//
-//
-////                               (JButton) e.getSource().getName.equals(room);
-////                            if(  ){
-//////JButton.getDefaultLocale().equals(rs.getString("room_number"))
-////
-////                            }
-//
-//                            }
-//
-//
-//                        } catch (Exception ex) {
-//                           ex.printStackTrace();
-//                        }
-
-                    }
-                });
+//        if (l.level.equals("junior") || l.level.equals("senior")){
+//            roomsButton.setEnabled(false);
+//            employeeButton.setEnabled(false);
+//        }
         bookingButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 s.setVisible(true);
+            }
+        });
+
+
+        buttonSearch.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                buttonSearch.setSelected(true);
+                dateStart = c.pattern.format(s.jdIn.getDate());
+                dateEnd = c.pattern.format(s.jdOut.getDate());
+                DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                LocalDate date1 = LocalDate.parse(dateStart, df);
+                LocalDate date2 = LocalDate.parse(dateEnd, df);
+                daysBetween = ChronoUnit.DAYS.between(date1, date2);
+                ChangeStatusRoom();
             }
         });
 
@@ -116,48 +101,76 @@ public class HomePage extends JFrame {
         D02.addMouseListener(click(D02));
         D03.addMouseListener(click(D03));
         D04.addMouseListener(click(D04));
+//        this.addWindowListener(new WindowAdapter() {
+//            @Override
+//            public void windowOpened(WindowEvent e) {
+//                ChangeStatusRoom();
+//            }
+//        });
+//        ChangeStatusRoom();
+
+
+        CloseButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int confirm = JOptionPane.showConfirmDialog
+                        (null,"คุณต้องการออกจากระบบ ?","Close",JOptionPane.YES_NO_OPTION);
+                if(confirm == JOptionPane.YES_OPTION){
+                System.exit(0);
+                }
+            }
+        });
+        employeeButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Employee emp = new Employee();
+                emp.setVisible(true);
+                layeredPane.add(emp, new Integer(3));
+            }
+        });
     }
 
+
+
+    void RoomAvailable(JButton button){
+        button.setBackground(Color.GREEN);
+    }
+    void RoomUnavailable(JButton button){
+            button.setBackground(Color.GRAY);
+    }
+    void RoomRepair(JButton button){
+            button.setBackground(Color.RED);
+    }
 
     MouseListener click(JButton buttonR){
         buttonR.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 String click = buttonR.getActionCommand();
-                if(click.equals("A01")){
-                    room_id = "001";
-                } else if (click.equals("A02")){
-                    room_id = "002";
-                }else if (click.equals("A03")){
-                    room_id = "003";
-                }else if (click.equals("A04")){
-                    room_id = "004";
-                }else if (click.equals("B01")){
-                    room_id = "005";
-                }else if (click.equals("B02")){
-                    room_id = "006";
-                }else if (click.equals("B03")){
-                    room_id = "007";
-                }else if (click.equals("B04")){
-                    room_id = "008";
-                }else if (click.equals("C01")){
-                    room_id = "009";
-                }else if (click.equals("C02")){
-                    room_id = "010";
-                }else if (click.equals("C03")){
-                    room_id = "011";
-                }else if (click.equals("C04")){
-                    room_id = "012";
-                }else if (click.equals("D01")){
-                    room_id = "013";
-                }else if (click.equals("D02")){
-                    room_id = "014";
-                }else if (click.equals("D03")){
-                    room_id = "015";
-                }else if (click.equals("D04")){
-                    room_id = "016";
+
+                if(buttonR.getBackground().equals(Color.GRAY)  || buttonR.getBackground().equals(Color.RED) ){
+                    b.setVisible(false);
                 } else {
-                    room_id = "0";
+                    b.setVisible(true);
+                }
+
+                if(click.equals("A01")){                    room_id = 1;
+                } else if (click.equals("A02")){                    room_id = 2;
+                }else if (click.equals("A03")){                    room_id = 3;
+                }else if (click.equals("A04")){                    room_id = 4;
+                }else if (click.equals("B01")){                    room_id = 5;
+                }else if (click.equals("B02")){                    room_id = 6;
+                }else if (click.equals("B03")){                    room_id = 7;
+                }else if (click.equals("B04")){                    room_id = 8;
+                }else if (click.equals("C01")){                    room_id = 9;
+                }else if (click.equals("C02")){                    room_id = 10;
+                }else if (click.equals("C03")){                    room_id = 11;
+                }else if (click.equals("C04")){                    room_id = 12;
+                }else if (click.equals("D01")){                    room_id = 13;
+                }else if (click.equals("D02")){                    room_id = 14;
+                }else if (click.equals("D03")){                    room_id = 15;
+                }else if (click.equals("D04")){                    room_id = 16;
+                } else {                    room_id = 0;
                 }
                 if( buttonSearch.isSelected()){
                     MSearch();
@@ -174,7 +187,6 @@ void MSearch(){
     b.out.setText(dateEnd);
     b.day.setText(String.valueOf(daysBetween));
     b.BookingRoom(room_id);
-    b.setVisible(true);
 }
 
 void CSearch(){
@@ -182,15 +194,199 @@ void CSearch(){
     b.out.setText(s.out);
     b.day.setText(String.valueOf(s.daysBetween) );
     b.BookingRoom(room_id);
-    b.setVisible(true);
 }
+    void ChangeColorRoom(){
 
+        try {
+            String sql = "SELECT room_number FROM minihotel.room as r,minihotel.room_status as s where r.status_id = s.status_id AND r.status_id = 1";
+            pre = con.prepareStatement(sql);
+            rs = pre.executeQuery();
+            while (rs.next()) {
+                String r = rs.getString("room_number");
+                if (A01.getText().equals(r)){                    RoomAvailable(A01);
+                } else if (A02.getText().equals(r)) {                    RoomAvailable(A02);
+                } else if (A03.getText().equals(r)) {                    RoomAvailable(A03);
+                } else if (A04.getText().equals(r)) {                    RoomAvailable(A04);
+                } else if (B01.getText().equals(r)) {                    RoomAvailable(B01);
+                } else if (B02.getText().equals(r)) {                    RoomAvailable(B02);
+                } else if (B03.getText().equals(r)) {                    RoomAvailable(B03);
+                } else if (B04.getText().equals(r)) {                    RoomAvailable(B04);
+                } else if (C01.getText().equals(r)) {                    RoomAvailable(C01);
+                } else if (C02.getText().equals(r)) {                    RoomAvailable(C02);
+                } else if (C03.getText().equals(r)) {                    RoomAvailable(C03);
+                } else if (C04.getText().equals(r)) {                    RoomAvailable(C04);
+                } else if (D01.getText().equals(r)) {                    RoomAvailable(D01);
+                } else if (D02.getText().equals(r)) {                    RoomAvailable(D02);
+                } else if (D03.getText().equals(r)) {                    RoomAvailable(D03);
+                } else if (D04.getText().equals(r)) {                    RoomAvailable(D04);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        try {
+            String sql = "SELECT room_number FROM minihotel.room as r,minihotel.room_status as s where r.status_id = s.status_id AND r.status_id = 2";
+            pre = con.prepareStatement(sql);
+            rs = pre.executeQuery();
+            while (rs.next()) {
+                String r = rs.getString("room_number");
+                if (A01.getText().equals(r)){                    RoomUnavailable(A01);
+                } else if (A02.getText().equals(r)) {                    RoomUnavailable(A02);
+                } else if (A03.getText().equals(r)) {                    RoomUnavailable(A03);
+                } else if (A04.getText().equals(r)) {                    RoomUnavailable(A04);
+                } else if (B01.getText().equals(r)) {                    RoomUnavailable(B01);
+                } else if (B02.getText().equals(r)) {                    RoomUnavailable(B02);
+                } else if (B03.getText().equals(r)) {                    RoomUnavailable(B03);
+                } else if (B04.getText().equals(r)) {                    RoomUnavailable(B04);
+                } else if (C01.getText().equals(r)) {                    RoomUnavailable(C01);
+                } else if (C02.getText().equals(r)) {                    RoomUnavailable(C02);
+                } else if (C03.getText().equals(r)) {                    RoomUnavailable(C03);
+                } else if (C04.getText().equals(r)) {                    RoomUnavailable(C04);
+                } else if (D01.getText().equals(r)) {                    RoomUnavailable(D01);
+                } else if (D02.getText().equals(r)) {                    RoomUnavailable(D02);
+                } else if (D03.getText().equals(r)) {                    RoomUnavailable(D03);
+                } else if (D04.getText().equals(r)) {                    RoomUnavailable(D04);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        try {
+            String sql = "SELECT room_number FROM minihotel.room as r,minihotel.room_status as s where r.status_id = s.status_id AND r.status_id = 3";
+            pre = con.prepareStatement(sql);
+            rs = pre.executeQuery();
+            while (rs.next()) {
+                String r = rs.getString("room_number");
+                if (A01.getText().equals(r)){                    RoomRepair(A01);
+                } else if (A02.getText().equals(r)) {                    RoomRepair(A02);
+                } else if (A03.getText().equals(r)) {                    RoomRepair(A03);
+                } else if (A04.getText().equals(r)) {                    RoomRepair(A04);
+                } else if (B01.getText().equals(r)) {                    RoomRepair(B01);
+                } else if (B02.getText().equals(r)) {                    RoomRepair(B02);
+                } else if (B03.getText().equals(r)) {                    RoomRepair(B03);
+                } else if (B04.getText().equals(r)) {                    RoomRepair(B04);
+                } else if (C01.getText().equals(r)) {                    RoomRepair(C01);
+                } else if (C02.getText().equals(r)) {                    RoomRepair(C02);
+                } else if (C03.getText().equals(r)) {                    RoomRepair(C03);
+                } else if (C04.getText().equals(r)) {                    RoomRepair(C04);
+                } else if (D01.getText().equals(r)) {                    RoomRepair(D01);
+                } else if (D02.getText().equals(r)) {                    RoomRepair(D02);
+                } else if (D03.getText().equals(r)) {                    RoomRepair(D03);
+                } else if (D04.getText().equals(r)) {                    RoomRepair(D04);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    void ChangeStatusRoom(){
+        ArrayList<Integer> roomUna = new ArrayList<Integer>();
+        try {
+            String sql = "SELECT booking_no, r.room_id, check_in, check_out FROM booking as b, room as r " +
+                    "where  b.room_id = r.room_id "; //AND booking_status_id Not in (3,4)
+            pre = con.prepareStatement(sql);
+            rs = pre.executeQuery();
+            String i, o;
+            int room_id;
+            String s1 = c.patternSQL.format(s.jdIn.getDate());
+            String s2 = c.patternSQL.format(s.jdOut.getDate());
+//            JDateChooser n = c.DatenowSQL();
+//            String sNow = c.patternSQL.format(n.getDate());
+                LocalDate start = LocalDate.parse(s1);
+                LocalDate end = LocalDate.parse(s2);
+            while (rs.next()) {
+                room_id = rs.getInt("room_id");
+                i = rs.getString("check_in");
+                o = rs.getString("check_out");
+//                LocalDate now = LocalDate.parse(sNow);
+                LocalDate check_in = LocalDate.parse(i);
+                LocalDate check_out = LocalDate.parse(o);
+
+                if (start.isBefore(check_out) && end.isAfter(check_in) ) { //เช็คห้องไม่ว่าง
+                    roomUna.add(room_id);
+                } else {
+                    try {
+                        String un = "UPDATE room SET status_id = 1 WHERE room_id = ? ";
+                        pre = con.prepareStatement(un);
+                        pre.setInt(1, room_id);
+                        pre.executeUpdate();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+
+            try {
+                String una = "UPDATE room SET status_id = 2 WHERE room_id = ? ";
+                pre = con.prepareStatement(una);
+                    for (int r = 0; r < roomUna.size(); r++) {
+                        pre.setInt(1, roomUna.get(r));
+                        pre.executeUpdate();
+//                        if (pre.executeUpdate() != -1) {
+//                        System.out.println(roomUna.get(r));
+//                        }
+            }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+        }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            String sql = "SELECT COUNT(room_id) FROM room";
+            pre = con.prepareStatement(sql);
+            rs = pre.executeQuery();
+            while (rs.next()) {
+                rooms.setText(rs.getString("COUNT(room_id)"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            String sql = "SELECT COUNT(room_id) FROM minihotel.room where status_id = 1";
+            pre = con.prepareStatement(sql);
+            rs = pre.executeQuery();
+            while (rs.next()) {
+                available.setText(rs.getString("COUNT(room_id)"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            String sql = "SELECT COUNT(room_id) FROM minihotel.room where status_id = 2";
+            pre = con.prepareStatement(sql);
+            rs = pre.executeQuery();
+            while (rs.next()) {
+                unavailable.setText(rs.getString("COUNT(room_id)"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            String sql = "SELECT COUNT(room_id) FROM minihotel.room where status_id = 3";
+            pre = con.prepareStatement(sql);
+            rs = pre.executeQuery();
+            while (rs.next()) {
+                repair.setText(rs.getString("COUNT(room_id)"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+                ChangeColorRoom();
+    }
     private JPanel home;
-    private JButton ออกจากระบบButton;
+    private JButton CloseButton;
     private JButton bookingButton;
     private JButton ดูข้อมูลการจองButton;
-    private JButton ข้อมูลห้องพักButton;
-    private JButton ข้อมูลพนักงานButton;
+    private JButton roomsButton;
+    private JButton employeeButton;
     private JButton checkOutButton;
     private JButton A01;
     private JButton A02;
@@ -214,6 +410,10 @@ void CSearch(){
     private JButton D03;
     private JButton C02;
     JLabel emp_name;
+    private JLabel rooms;
+    private JLabel unavailable;
+    private JLabel available;
+    private JLabel repair;
 
 
 }

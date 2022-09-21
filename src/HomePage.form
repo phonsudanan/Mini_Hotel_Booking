@@ -57,7 +57,7 @@
               <text value="ดูข้อมูลการจอง"/>
             </properties>
           </component>
-          <component id="a67c8" class="javax.swing.JButton" binding="ข้อมูลห้องพักButton" default-binding="true">
+          <component id="a67c8" class="javax.swing.JButton" binding="roomsButton">
             <constraints>
               <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -66,7 +66,7 @@
               <text value="ข้อมูลห้องพัก"/>
             </properties>
           </component>
-          <component id="1c90e" class="javax.swing.JButton" binding="ข้อมูลพนักงานButton" default-binding="true">
+          <component id="1c90e" class="javax.swing.JButton" binding="employeeButton">
             <constraints>
               <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -84,7 +84,7 @@
               <text value="Check-Out ห้องพัก"/>
             </properties>
           </component>
-          <component id="47ccc" class="javax.swing.JButton" binding="ออกจากระบบButton" default-binding="true">
+          <component id="47ccc" class="javax.swing.JButton" binding="CloseButton">
             <constraints>
               <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -151,7 +151,7 @@
               <text value="ปิดปรับปรุง"/>
             </properties>
           </component>
-          <component id="ef4be" class="javax.swing.JLabel">
+          <component id="ef4be" class="javax.swing.JLabel" binding="unavailable">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -160,7 +160,7 @@
               <text value="Label"/>
             </properties>
           </component>
-          <component id="99137" class="javax.swing.JLabel">
+          <component id="99137" class="javax.swing.JLabel" binding="available">
             <constraints>
               <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -169,7 +169,7 @@
               <text value="Label"/>
             </properties>
           </component>
-          <component id="f077a" class="javax.swing.JLabel">
+          <component id="f077a" class="javax.swing.JLabel" binding="repair">
             <constraints>
               <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -178,7 +178,7 @@
               <text value="Label"/>
             </properties>
           </component>
-          <component id="4b9f8" class="javax.swing.JLabel">
+          <component id="4b9f8" class="javax.swing.JLabel" binding="rooms">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="86" height="18"/>

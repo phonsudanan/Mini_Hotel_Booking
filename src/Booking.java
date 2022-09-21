@@ -52,7 +52,7 @@ public class Booking extends JFrame {
 //                        System.out.println(c.patternSQL.format(parseDateIn));
 //                        System.out.println(c.patternSQL.format(parseDateOut));
                         String sql = "INSERT INTO booking (booking_no,booking_date,check_in,check_out,days,customer_name,customer_phone," +
-                                "room_number,emp_name,total_price) VALUES (?,?,?,?,?,?,?,?,?,?)";
+                                "room_id,emp_name,total_price, booking_status_id) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
                         PreparedStatement pre = conn.prepareStatement(sql);
                         pre.setString(1, null);
@@ -62,13 +62,15 @@ public class Booking extends JFrame {
                         pre.setInt(5, Integer.parseInt(day.getText()));
                         pre.setString(6, customerName.getText());
                         pre.setString(7, customerPhone.getText());
-                        pre.setString(8, room.getText());
+                        pre.setInt(8, h.room_id);
                         pre.setString(9, l.uName);
                         pre.setInt(10, totalPrice);
+                        pre.setInt(11, 1);
                         if (pre.executeUpdate() != -1) {
                     JOptionPane.showMessageDialog(null,"การจองสำเร็จ");
                         customerName.setText("");
                         customerPhone.setText("");
+                        h.ChangeStatusRoom();
                     setVisible(false);
 
                         }
@@ -82,7 +84,7 @@ public class Booking extends JFrame {
         });
     }
 
-    void BookingRoom(String room_id){
+    void BookingRoom(int room_id){
 try {
     CalendarSearch c = new CalendarSearch();
 //    c.panelIn.

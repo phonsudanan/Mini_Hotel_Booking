@@ -15,6 +15,17 @@ public class CalendarDateInDateOut {
 
     SimpleDateFormat pattern = new SimpleDateFormat("dd-MM-yyyy");
     SimpleDateFormat patternSQL = new SimpleDateFormat("yyyy-MM-dd");
+
+    DateTimeFormatter localDateParse = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    public JDateChooser  DatenowSQL(){
+        Locale locale = new Locale("th", "TH");
+        JDateChooser now = new JDateChooser();
+        now.setDate(new Date());
+        now.setLocale(locale);
+        return now;
+    }
+
     public JDateChooser CalendarIn () throws ParseException {
         Locale locale = new Locale("th", "TH");
         ThaiBuddhistDate thai = ThaiBuddhistDate.now(ZoneId.systemDefault());
