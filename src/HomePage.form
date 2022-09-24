@@ -84,7 +84,7 @@
               <text value="Check-Out ห้องพัก"/>
             </properties>
           </component>
-          <component id="47ccc" class="javax.swing.JButton" binding="CloseButton">
+          <component id="47ccc" class="javax.swing.JButton" binding="closeButton">
             <constraints>
               <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>

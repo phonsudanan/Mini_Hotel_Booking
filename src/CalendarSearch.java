@@ -13,8 +13,8 @@ public class CalendarSearch extends JFrame {
     Booking b = new Booking();
     Login l = new Login();
     static CalendarDateInDateOut c = new CalendarDateInDateOut();
-    JDateChooser d1  = c.CalendarIn();
-    JDateChooser d2  = c.CalendarOut();
+    JDateChooser d1  = c.calendarIn();
+    JDateChooser d2  = c.calendarOut();
     static  String in;
     static String out;
     static JDateChooser jdIn;
@@ -56,12 +56,12 @@ public class CalendarSearch extends JFrame {
                     throw new RuntimeException(ex);
                 }
                 try {
-                      jdIn =c.CalendarIn(in);
-                      jdOut = c.CalendarOut(out);
+                      jdIn =c.calendarIn(in);
+                      jdOut = c.calendarOut(out);
                     homePage.panelIn.add(jdIn, new GridBagLayout());
                     homePage.panelOut.add(jdOut, new GridBagLayout());
                     homePage.emp_name.setText(l.uName);
-                    homePage.ChangeStatusRoom();
+                    homePage.changeStatusRoom();
                 } catch (ParseException ex) {
                     throw new RuntimeException(ex);
                 }

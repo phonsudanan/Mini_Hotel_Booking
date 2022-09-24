@@ -81,7 +81,7 @@ public class HomePage extends JFrame {
                 LocalDate date1 = LocalDate.parse(dateStart, df);
                 LocalDate date2 = LocalDate.parse(dateEnd, df);
                 daysBetween = ChronoUnit.DAYS.between(date1, date2);
-                ChangeStatusRoom();
+                changeStatusRoom();
             }
         });
 
@@ -104,13 +104,13 @@ public class HomePage extends JFrame {
 //        this.addWindowListener(new WindowAdapter() {
 //            @Override
 //            public void windowOpened(WindowEvent e) {
-//                ChangeStatusRoom();
+//                changeStatusRoom();
 //            }
 //        });
-//        ChangeStatusRoom();
+//        changeStatusRoom();
 
 
-        CloseButton.addMouseListener(new MouseAdapter() {
+        closeButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int confirm = JOptionPane.showConfirmDialog
@@ -132,13 +132,13 @@ public class HomePage extends JFrame {
 
 
 
-    void RoomAvailable(JButton button){
+    void roomAvailable(JButton button){
         button.setBackground(Color.GREEN);
     }
-    void RoomUnavailable(JButton button){
+    void roomUnavailable(JButton button){
             button.setBackground(Color.GRAY);
     }
-    void RoomRepair(JButton button){
+    void roomRepair(JButton button){
             button.setBackground(Color.RED);
     }
 
@@ -186,16 +186,16 @@ void MSearch(){
     b.in.setText(dateStart);
     b.out.setText(dateEnd);
     b.day.setText(String.valueOf(daysBetween));
-    b.BookingRoom(room_id);
+    b.bookingRoom(room_id);
 }
 
 void CSearch(){
     b.in.setText(s.in);
     b.out.setText(s.out);
     b.day.setText(String.valueOf(s.daysBetween) );
-    b.BookingRoom(room_id);
+    b.bookingRoom(room_id);
 }
-    void ChangeColorRoom(){
+    void changeColorRoom(){
 
         try {
             String sql = "SELECT room_number FROM minihotel.room as r,minihotel.room_status as s where r.status_id = s.status_id AND r.status_id = 1";
@@ -203,22 +203,22 @@ void CSearch(){
             rs = pre.executeQuery();
             while (rs.next()) {
                 String r = rs.getString("room_number");
-                if (A01.getText().equals(r)){                    RoomAvailable(A01);
-                } else if (A02.getText().equals(r)) {                    RoomAvailable(A02);
-                } else if (A03.getText().equals(r)) {                    RoomAvailable(A03);
-                } else if (A04.getText().equals(r)) {                    RoomAvailable(A04);
-                } else if (B01.getText().equals(r)) {                    RoomAvailable(B01);
-                } else if (B02.getText().equals(r)) {                    RoomAvailable(B02);
-                } else if (B03.getText().equals(r)) {                    RoomAvailable(B03);
-                } else if (B04.getText().equals(r)) {                    RoomAvailable(B04);
-                } else if (C01.getText().equals(r)) {                    RoomAvailable(C01);
-                } else if (C02.getText().equals(r)) {                    RoomAvailable(C02);
-                } else if (C03.getText().equals(r)) {                    RoomAvailable(C03);
-                } else if (C04.getText().equals(r)) {                    RoomAvailable(C04);
-                } else if (D01.getText().equals(r)) {                    RoomAvailable(D01);
-                } else if (D02.getText().equals(r)) {                    RoomAvailable(D02);
-                } else if (D03.getText().equals(r)) {                    RoomAvailable(D03);
-                } else if (D04.getText().equals(r)) {                    RoomAvailable(D04);
+                if (A01.getText().equals(r)){                    roomAvailable(A01);
+                } else if (A02.getText().equals(r)) {                    roomAvailable(A02);
+                } else if (A03.getText().equals(r)) {                    roomAvailable(A03);
+                } else if (A04.getText().equals(r)) {                    roomAvailable(A04);
+                } else if (B01.getText().equals(r)) {                    roomAvailable(B01);
+                } else if (B02.getText().equals(r)) {                    roomAvailable(B02);
+                } else if (B03.getText().equals(r)) {                    roomAvailable(B03);
+                } else if (B04.getText().equals(r)) {                    roomAvailable(B04);
+                } else if (C01.getText().equals(r)) {                    roomAvailable(C01);
+                } else if (C02.getText().equals(r)) {                    roomAvailable(C02);
+                } else if (C03.getText().equals(r)) {                    roomAvailable(C03);
+                } else if (C04.getText().equals(r)) {                    roomAvailable(C04);
+                } else if (D01.getText().equals(r)) {                    roomAvailable(D01);
+                } else if (D02.getText().equals(r)) {                    roomAvailable(D02);
+                } else if (D03.getText().equals(r)) {                    roomAvailable(D03);
+                } else if (D04.getText().equals(r)) {                    roomAvailable(D04);
                 }
             }
         } catch (Exception ex) {
@@ -230,22 +230,22 @@ void CSearch(){
             rs = pre.executeQuery();
             while (rs.next()) {
                 String r = rs.getString("room_number");
-                if (A01.getText().equals(r)){                    RoomUnavailable(A01);
-                } else if (A02.getText().equals(r)) {                    RoomUnavailable(A02);
-                } else if (A03.getText().equals(r)) {                    RoomUnavailable(A03);
-                } else if (A04.getText().equals(r)) {                    RoomUnavailable(A04);
-                } else if (B01.getText().equals(r)) {                    RoomUnavailable(B01);
-                } else if (B02.getText().equals(r)) {                    RoomUnavailable(B02);
-                } else if (B03.getText().equals(r)) {                    RoomUnavailable(B03);
-                } else if (B04.getText().equals(r)) {                    RoomUnavailable(B04);
-                } else if (C01.getText().equals(r)) {                    RoomUnavailable(C01);
-                } else if (C02.getText().equals(r)) {                    RoomUnavailable(C02);
-                } else if (C03.getText().equals(r)) {                    RoomUnavailable(C03);
-                } else if (C04.getText().equals(r)) {                    RoomUnavailable(C04);
-                } else if (D01.getText().equals(r)) {                    RoomUnavailable(D01);
-                } else if (D02.getText().equals(r)) {                    RoomUnavailable(D02);
-                } else if (D03.getText().equals(r)) {                    RoomUnavailable(D03);
-                } else if (D04.getText().equals(r)) {                    RoomUnavailable(D04);
+                if (A01.getText().equals(r)){                    roomUnavailable(A01);
+                } else if (A02.getText().equals(r)) {                    roomUnavailable(A02);
+                } else if (A03.getText().equals(r)) {                    roomUnavailable(A03);
+                } else if (A04.getText().equals(r)) {                    roomUnavailable(A04);
+                } else if (B01.getText().equals(r)) {                    roomUnavailable(B01);
+                } else if (B02.getText().equals(r)) {                    roomUnavailable(B02);
+                } else if (B03.getText().equals(r)) {                    roomUnavailable(B03);
+                } else if (B04.getText().equals(r)) {                    roomUnavailable(B04);
+                } else if (C01.getText().equals(r)) {                    roomUnavailable(C01);
+                } else if (C02.getText().equals(r)) {                    roomUnavailable(C02);
+                } else if (C03.getText().equals(r)) {                    roomUnavailable(C03);
+                } else if (C04.getText().equals(r)) {                    roomUnavailable(C04);
+                } else if (D01.getText().equals(r)) {                    roomUnavailable(D01);
+                } else if (D02.getText().equals(r)) {                    roomUnavailable(D02);
+                } else if (D03.getText().equals(r)) {                    roomUnavailable(D03);
+                } else if (D04.getText().equals(r)) {                    roomUnavailable(D04);
                 }
             }
         } catch (Exception ex) {
@@ -257,22 +257,22 @@ void CSearch(){
             rs = pre.executeQuery();
             while (rs.next()) {
                 String r = rs.getString("room_number");
-                if (A01.getText().equals(r)){                    RoomRepair(A01);
-                } else if (A02.getText().equals(r)) {                    RoomRepair(A02);
-                } else if (A03.getText().equals(r)) {                    RoomRepair(A03);
-                } else if (A04.getText().equals(r)) {                    RoomRepair(A04);
-                } else if (B01.getText().equals(r)) {                    RoomRepair(B01);
-                } else if (B02.getText().equals(r)) {                    RoomRepair(B02);
-                } else if (B03.getText().equals(r)) {                    RoomRepair(B03);
-                } else if (B04.getText().equals(r)) {                    RoomRepair(B04);
-                } else if (C01.getText().equals(r)) {                    RoomRepair(C01);
-                } else if (C02.getText().equals(r)) {                    RoomRepair(C02);
-                } else if (C03.getText().equals(r)) {                    RoomRepair(C03);
-                } else if (C04.getText().equals(r)) {                    RoomRepair(C04);
-                } else if (D01.getText().equals(r)) {                    RoomRepair(D01);
-                } else if (D02.getText().equals(r)) {                    RoomRepair(D02);
-                } else if (D03.getText().equals(r)) {                    RoomRepair(D03);
-                } else if (D04.getText().equals(r)) {                    RoomRepair(D04);
+                if (A01.getText().equals(r)){                    roomRepair(A01);
+                } else if (A02.getText().equals(r)) {                    roomRepair(A02);
+                } else if (A03.getText().equals(r)) {                    roomRepair(A03);
+                } else if (A04.getText().equals(r)) {                    roomRepair(A04);
+                } else if (B01.getText().equals(r)) {                    roomRepair(B01);
+                } else if (B02.getText().equals(r)) {                    roomRepair(B02);
+                } else if (B03.getText().equals(r)) {                    roomRepair(B03);
+                } else if (B04.getText().equals(r)) {                    roomRepair(B04);
+                } else if (C01.getText().equals(r)) {                    roomRepair(C01);
+                } else if (C02.getText().equals(r)) {                    roomRepair(C02);
+                } else if (C03.getText().equals(r)) {                    roomRepair(C03);
+                } else if (C04.getText().equals(r)) {                    roomRepair(C04);
+                } else if (D01.getText().equals(r)) {                    roomRepair(D01);
+                } else if (D02.getText().equals(r)) {                    roomRepair(D02);
+                } else if (D03.getText().equals(r)) {                    roomRepair(D03);
+                } else if (D04.getText().equals(r)) {                    roomRepair(D04);
                 }
             }
         } catch (Exception ex) {
@@ -280,7 +280,7 @@ void CSearch(){
         }
     }
 
-    void ChangeStatusRoom(){
+    void changeStatusRoom(){
         ArrayList<Integer> roomUna = new ArrayList<Integer>();
         try {
             String sql = "SELECT booking_no, r.room_id, check_in, check_out FROM booking as b, room as r " +
@@ -379,10 +379,10 @@ void CSearch(){
             e.printStackTrace();
         }
 
-                ChangeColorRoom();
+                changeColorRoom();
     }
     private JPanel home;
-    private JButton CloseButton;
+    private JButton closeButton;
     private JButton bookingButton;
     private JButton ดูข้อมูลการจองButton;
     private JButton roomsButton;

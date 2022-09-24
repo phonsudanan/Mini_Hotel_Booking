@@ -43,7 +43,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="33828" class="javax.swing.JButton" binding="CANCELButton" default-binding="true">
+              <component id="33828" class="javax.swing.JButton" binding="cancelButton">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -51,7 +51,7 @@
                   <text value="CANCEL"/>
                 </properties>
               </component>
-              <component id="5cdc" class="javax.swing.JButton" binding="CONFIRMButton" default-binding="true">
+              <component id="5cdc" class="javax.swing.JButton" binding="confirmButton">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>

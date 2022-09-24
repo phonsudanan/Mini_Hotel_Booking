@@ -24,7 +24,7 @@ public class Booking extends JFrame {
         setLocationRelativeTo(null);
         setContentPane(home);
 //        BookingRoom(001);
-        CANCELButton.addMouseListener(new MouseAdapter() {
+        cancelButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int result = JOptionPane.showConfirmDialog(null,"ออกจากหน้าจอการจอง ?","Close",JOptionPane.YES_NO_OPTION);
@@ -34,7 +34,7 @@ public class Booking extends JFrame {
 
             }
         });
-        CONFIRMButton.addMouseListener(new MouseAdapter() {
+        confirmButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int result = JOptionPane.showConfirmDialog(null,"ยืนยันการจองห้องพัก ?","ยืนยันการจอง",JOptionPane.YES_NO_OPTION);
@@ -70,7 +70,7 @@ public class Booking extends JFrame {
                     JOptionPane.showMessageDialog(null,"การจองสำเร็จ");
                         customerName.setText("");
                         customerPhone.setText("");
-                        h.ChangeStatusRoom();
+                        h.changeStatusRoom();
                     setVisible(false);
 
                         }
@@ -84,7 +84,7 @@ public class Booking extends JFrame {
         });
     }
 
-    void BookingRoom(int room_id){
+    void bookingRoom(int room_id){
 try {
     CalendarSearch c = new CalendarSearch();
 //    c.panelIn.
@@ -105,8 +105,8 @@ try {
     }
 
     private JPanel home;
-    private JButton CANCELButton;
-    private JButton CONFIRMButton;
+    private JButton cancelButton;
+    private JButton confirmButton;
     private JTextField customerName;
     private JLabel area;
     private JLabel bed;

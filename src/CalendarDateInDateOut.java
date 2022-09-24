@@ -18,7 +18,7 @@ public class CalendarDateInDateOut {
 
     DateTimeFormatter localDateParse = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public JDateChooser  DatenowSQL(){
+    public JDateChooser  datenowSQL(){
         Locale locale = new Locale("th", "TH");
         JDateChooser now = new JDateChooser();
         now.setDate(new Date());
@@ -26,7 +26,7 @@ public class CalendarDateInDateOut {
         return now;
     }
 
-    public JDateChooser CalendarIn () throws ParseException {
+    public JDateChooser calendarIn () throws ParseException {
         Locale locale = new Locale("th", "TH");
         ThaiBuddhistDate thai = ThaiBuddhistDate.now(ZoneId.systemDefault());
 
@@ -50,7 +50,7 @@ public class CalendarDateInDateOut {
         return calendarIn;
     }
 
-    public JDateChooser CalendarOut() throws ParseException {
+    public JDateChooser calendarOut() throws ParseException {
         Locale locale = new Locale("th", "TH");
         ThaiBuddhistDate thai = ThaiBuddhistDate.now(ZoneId.systemDefault());
 
@@ -74,7 +74,7 @@ public class CalendarDateInDateOut {
         return calendarOut;
     }
 
-    public JDateChooser CalendarIn (String s) throws ParseException {
+    public JDateChooser calendarIn (String s) throws ParseException {
 
         Locale locale = new Locale("th", "TH");
         ThaiBuddhistDate thai = ThaiBuddhistDate.now(ZoneId.systemDefault());
@@ -102,7 +102,7 @@ public class CalendarDateInDateOut {
     }
 
 
-    public JDateChooser CalendarOut (String s) throws ParseException {
+    public JDateChooser calendarOut (String s) throws ParseException {
 
         Locale locale = new Locale("th", "TH");
         ThaiBuddhistDate thai = ThaiBuddhistDate.now(ZoneId.systemDefault());
