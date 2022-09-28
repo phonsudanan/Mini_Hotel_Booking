@@ -86,7 +86,7 @@ public class Employee extends JInternalFrame {
                 edit();
             }
         });
-        saveButton.addMouseListener(new MouseAdapter() {
+        addButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 save();
@@ -107,6 +107,7 @@ public class Employee extends JInternalFrame {
         textUsername.setText("");
         textPassword.setText("");
 
+        addButton.setEnabled(true);
         deleteButton.setEnabled(false);
         editButton.setEnabled(false);
     }
@@ -260,7 +261,7 @@ public class Employee extends JInternalFrame {
     private void showDataEmployee() {
         editButton.setEnabled(false);
         deleteButton.setEnabled(false);
-        saveButton.setEnabled(true);
+        addButton.setEnabled(true);
         textId.setEditable(true);
         textUsername.setEditable(true);
         textPassword.setEditable(true);
@@ -325,10 +326,10 @@ public class Employee extends JInternalFrame {
 
         editButton.setEnabled(true);
         deleteButton.setEnabled(true);
-        saveButton.setEnabled(false);
+        addButton.setEnabled(false);
     }
 
-    private void showPosition() {
+    void showPosition() {
         try {
             String sql = " SELECT pos_th FROM position ORDER BY pos_th ASC ";
             pre = con.prepareStatement(sql);
@@ -336,14 +337,12 @@ public class Employee extends JInternalFrame {
             while (rs.next()) {
                 textPosition.addItem(rs.getString("pos_th"));
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void showLevel() {
+    void showLevel() {
         try {
             String sql = " SELECT level_name FROM position_level ORDER BY level_name ASC ";
             pre = con.prepareStatement(sql);
@@ -356,7 +355,7 @@ public class Employee extends JInternalFrame {
         }
     }
 
-    private int posID(String pos) {
+    int posID(String pos) {
         int pos_id = 0;
         pos = textPosition.getSelectedItem().toString();
         switch (pos) {
@@ -382,7 +381,7 @@ public class Employee extends JInternalFrame {
         return pos_id;
     }
 
-    private int levelID(String level) {
+     int levelID(String level) {
         int level_id = 0;
         level = textLevel.getSelectedItem().toString();
         switch (level) {
@@ -412,7 +411,7 @@ public class Employee extends JInternalFrame {
     private JButton resetButton;
     private JButton deleteButton;
     private JButton editButton;
-    private JButton saveButton;
+    private JButton addButton;
     private JScrollPane scrollbar;
     private JTextField searchEmp;
 }

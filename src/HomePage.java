@@ -59,10 +59,10 @@ public class HomePage extends JFrame {
         panelOut.setLayout(new BoxLayout(panelOut, BoxLayout.PAGE_AXIS));
 
 
-//        if (l.level.equals("junior") || l.level.equals("senior")){
-//            roomsButton.setEnabled(false);
-//            employeeButton.setEnabled(false);
-//        }
+        if (l.level ==3 || l.level ==2 ){
+            roomsButton.setEnabled(false);
+            employeeButton.setEnabled(false);
+        }
         bookingButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -120,14 +120,44 @@ public class HomePage extends JFrame {
                 }
             }
         });
+
+        roomsButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (l.level ==3 || l.level ==2 ){
+                    roomsButton.setEnabled(false);
+                }else {
+                    Rooms room = new Rooms();
+                    room.setVisible(true);
+                    layeredPane.add(room, new Integer(3));
+                }
+            }
+        });
         employeeButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Employee emp = new Employee();
-                emp.setVisible(true);
-                layeredPane.add(emp, new Integer(3));
+                if (l.level ==3 || l.level ==2 ){
+                    employeeButton.setEnabled(false);
+                }else {
+                    Employee emp = new Employee();
+                    emp.setVisible(true);
+                    layeredPane.add(emp, new Integer(3));
+                }
             }
         });
+        emp_name.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                PersonalDetails personal = null;
+                try {
+                    personal = new PersonalDetails();
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
+                personal.setVisible(true);
+            }
+        });
+
     }
 
 

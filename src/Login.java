@@ -17,7 +17,8 @@ public class Login extends JFrame{
     private JButton logIn;
     private JButton reset;
 
-    public  static  String uName,level;
+    public  static  String id,uName;
+    public  static  int level;
     public static void main(String[] args) throws ParseException {
         new Login().setVisible(true);
     }
@@ -42,13 +43,15 @@ public class Login extends JFrame{
                 String u = userName.getText().trim();
                 String p = new String(password.getPassword());
                 try {
-                    String sql = "SELECT username,password,name,level FROM employee";
+                    String sql = "SELECT * FROM employee";
                     PreparedStatement pre = con.prepareStatement(sql);
                     ResultSet rs = pre.executeQuery(sql);
                     while (rs.next()){
                         if ( rs.getString("username").equals(u) && rs.getString("password").equals(p) ){
+                             id = rs.getString("emp_id");
                             uName = rs.getString("name");
-                            level = rs.getString("level");
+                            level = rs.getInt("level_id");
+//                            System.out.println(id +"\n"+ level);
                             CalendarSearch s = new CalendarSearch();
                             s.setVisible(true);
                             setVisible(false);
@@ -58,7 +61,7 @@ public class Login extends JFrame{
                 } catch (Exception ex) {
                         JOptionPane.showMessageDialog
                                 (null, "คุณใส่ Username หรือ Password ไม่ถูกต้อง", "ERROR", JOptionPane.ERROR_MESSAGE);
-//                    ex.printStackTrace();
+                    ex.printStackTrace();
                 }
             }
         });

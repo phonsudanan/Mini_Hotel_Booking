@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="PersonalDetails">
+  <grid id="27dc6" binding="home" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="591" height="439"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="de713" layout-manager="GridLayoutManager" row-count="10" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Leelawadee" size="14" style="0"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="cbb77" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+              <horizontalTextPosition value="11"/>
+              <text value="รหัสพนักงาน"/>
+              <verticalAlignment value="0"/>
+            </properties>
+          </component>
+          <component id="9ee7d" class="javax.swing.JTextField" binding="textId">
+            <constraints>
+              <grid row="1" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+            </properties>
+          </component>
+          <component id="8c288" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+              <horizontalTextPosition value="11"/>
+              <text value="ชื่อ"/>
+              <verticalAlignment value="0"/>
+            </properties>
+          </component>
+          <component id="5cae" class="javax.swing.JTextField" binding="textName">
+            <constraints>
+              <grid row="2" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+            </properties>
+          </component>
+          <component id="5a3c1" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+              <horizontalTextPosition value="11"/>
+              <text value="ที่อยู่"/>
+              <verticalAlignment value="0"/>
+            </properties>
+          </component>
+          <component id="e17af" class="javax.swing.JTextField" binding="textAddress">
+            <constraints>
+              <grid row="3" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+            </properties>
+          </component>
+          <component id="8e13a" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+              <horizontalTextPosition value="11"/>
+              <text value="เบอร์ติดต่อ"/>
+              <verticalAlignment value="0"/>
+            </properties>
+          </component>
+          <component id="7a6d6" class="javax.swing.JTextField" binding="textPhone">
+            <constraints>
+              <grid row="4" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+            </properties>
+          </component>
+          <component id="58456" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+              <horizontalTextPosition value="11"/>
+              <text value="ตำแหน่งงาน"/>
+              <verticalAlignment value="0"/>
+            </properties>
+          </component>
+          <component id="77af0" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+              <horizontalTextPosition value="11"/>
+              <text value="ระดับงาน"/>
+              <verticalAlignment value="0"/>
+            </properties>
+          </component>
+          <component id="32cc5" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+              <horizontalTextPosition value="11"/>
+              <text value="Username"/>
+              <verticalAlignment value="0"/>
+            </properties>
+          </component>
+          <component id="af49c" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+              <horizontalTextPosition value="11"/>
+              <text value="Password"/>
+              <verticalAlignment value="0"/>
+            </properties>
+          </component>
+          <component id="bdf77" class="javax.swing.JTextField" binding="textPassword">
+            <constraints>
+              <grid row="8" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+            </properties>
+          </component>
+          <grid id="4b50f" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="5" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="abad7" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Leelawadee" size="22" style="0"/>
+                  <text value="แก้ไขข้อมูลส่วนตัว"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="27fba" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="9" column="0" row-span="1" col-span="5" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="ca647" class="javax.swing.JButton" binding="cancelButton">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Leelawadee" size="16" style="0"/>
+                  <text value="ยกเลิก"/>
+                </properties>
+              </component>
+              <component id="8f270" class="javax.swing.JButton" binding="chengeButton">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Leelawadee" size="16" style="0"/>
+                  <text value="แก้ไข"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="d8e88" class="javax.swing.JTextField" binding="textUsername">
+            <constraints>
+              <grid row="7" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+            </properties>
+          </component>
+          <component id="5d9fc" class="javax.swing.JTextField" binding="textPosition">
+            <constraints>
+              <grid row="5" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+            </properties>
+          </component>
+          <component id="d451c" class="javax.swing.JTextField" binding="textLevel">
+            <constraints>
+              <grid row="6" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="Leelawadee" size="14" style="0"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <vspacer id="69a7e">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <vspacer id="b0e6d">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <hspacer id="bd579">
+        <constraints>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <hspacer id="45fb4">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+    </children>
+  </grid>
+</form>
