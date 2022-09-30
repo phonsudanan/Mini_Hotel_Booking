@@ -27,73 +27,80 @@ public class Booking extends JFrame {
         cancelButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int result = JOptionPane.showConfirmDialog(null,"ออกจากหน้าจอการจอง ?","Close",JOptionPane.YES_NO_OPTION);
-                if(result == JOptionPane.YES_OPTION){
-                    setVisible(false);
-                }
-
+                setCancelButton();
             }
         });
         confirmButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int result = JOptionPane.showConfirmDialog(null,"ยืนยันการจองห้องพัก ?","ยืนยันการจอง",JOptionPane.YES_NO_OPTION);
-                if(result == JOptionPane.YES_OPTION){
-                    try {
-                        HomePage h = new HomePage();
-                        Login l = new Login();
-                        int d1 = Integer.parseInt(day.getText());
-                        int d2 = Integer.parseInt(price.getText());
-                        int totalPrice = d1*d2;
-                        Date now = new Date();
-                        Date parseDateIn = c.pattern.parse(in.getText());
-                        Date parseDateOut = c.pattern.parse(out.getText());
+                setConfirmButton();
+            }
+        });
+    }
+    void setCancelButton(){
+        int result = JOptionPane.showConfirmDialog(null,"ออกจากหน้าจอการจอง ?","Close",JOptionPane.YES_NO_OPTION);
+        if(result == JOptionPane.YES_OPTION){
+            setVisible(false);
+        }
+    }
+
+    void setConfirmButton(){
+        int result = JOptionPane.showConfirmDialog(null,"ยืนยันการจองห้องพัก ?","ยืนยันการจอง",JOptionPane.YES_NO_OPTION);
+        if(result == JOptionPane.YES_OPTION){
+            try {
+                HomePage h = new HomePage();
+                Login l = new Login();
+                int d1 = Integer.parseInt(day.getText());
+                int d2 = Integer.parseInt(price.getText());
+                int totalPrice = d1*d2;
+                Date now = new Date();
+                Date parseDateIn = c.pattern.parse(in.getText());
+                Date parseDateOut = c.pattern.parse(out.getText());
 //                        System.out.println(c.patternSQL.format(now));
 //                        System.out.println(c.patternSQL.format(parseDateIn));
 //                        System.out.println(c.patternSQL.format(parseDateOut));
-                        String sql = "INSERT INTO booking (booking_no,booking_date,check_in,check_out,days,customer_name,customer_phone," +
-                                "room_id,emp_name,total_price, booking_status_id) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                String sql = "INSERT INTO booking (booking_no,booking_date,check_in,check_out,days,customer_name,customer_phone," +
+                        "room_id,emp_name,total_price, booking_status_id) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
-                        PreparedStatement pre = conn.prepareStatement(sql);
-                        pre.setString(1, null);
-                        pre.setString(2, c.patternSQL.format(now));
-                        pre.setString(3, c.patternSQL.format(parseDateIn));
-                        pre.setString(4, c.patternSQL.format(parseDateOut));
-                        pre.setInt(5, Integer.parseInt(day.getText()));
-                        pre.setString(6, customerName.getText());
-                        pre.setString(7, customerPhone.getText());
-                        pre.setInt(8, h.room_id);
-                        pre.setString(9, l.uName);
-                        pre.setInt(10, totalPrice);
-                        pre.setInt(11, 1);
-                        if (pre.executeUpdate() != -1) {
+                PreparedStatement pre = conn.prepareStatement(sql);
+                pre.setString(1, null);
+                pre.setString(2, c.patternSQL.format(now));
+                pre.setString(3, c.patternSQL.format(parseDateIn));
+                pre.setString(4, c.patternSQL.format(parseDateOut));
+                pre.setInt(5, Integer.parseInt(day.getText()));
+                pre.setString(6, customerName.getText());
+                pre.setString(7, customerPhone.getText());
+                pre.setInt(8, h.room_id);
+                pre.setString(9, l.uName);
+                pre.setInt(10, totalPrice);
+                pre.setInt(11, 1);
+                if (pre.executeUpdate() != -1) {
                     JOptionPane.showMessageDialog(null,"การจองสำเร็จ");
-                        customerName.setText("");
-                        customerPhone.setText("");
-                        h.changeStatusRoom();
+                    customerName.setText("");
+                    customerPhone.setText("");
+                    h.changeStatusRoom();
                     setVisible(false);
 
-                        }
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-
-
                 }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-        });
+
+
+        }
     }
 
     void bookingRoom(int room_id){
 try {
     CalendarSearch c = new CalendarSearch();
 //    c.panelIn.
-    String sql = "SELECT * FROM room where room_id = " + room_id;
+    String sql = "SELECT room_id, room_number, type_th, area, price, status_name  FROM room as r, room_status as s, room_type as t "
+            + " WHERE r.status_id = s.status_id AND r.type_id = t.type_id AND room_id = " + room_id;
     ResultSet rs = conn.createStatement().executeQuery(sql);
     while (rs.next()) {
         room.setText(rs.getString("room_number"));
         area.setText(rs.getString("area"));
-        bed.setText(rs.getString("bed"));
+        bed.setText(rs.getString("type_th"));
         price.setText(rs.getString("price"));
     }
 
@@ -104,16 +111,16 @@ try {
 
     }
 
-    private JPanel home;
-    private JButton cancelButton;
-    private JButton confirmButton;
-    private JTextField customerName;
-    private JLabel area;
-    private JLabel bed;
-    private JLabel price;
-    private JLabel room;
-    public JLabel in;
-    public JLabel out;
-    public  JLabel day;
-    private JTextField customerPhone;
+     JPanel home;
+     JButton cancelButton;
+     JButton confirmButton;
+     JTextField customerName;
+     JLabel area;
+     JLabel bed;
+     JLabel price;
+     JLabel room;
+     JLabel in;
+     JLabel out;
+      JLabel day;
+     JTextField customerPhone;
 }

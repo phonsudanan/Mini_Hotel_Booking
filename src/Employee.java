@@ -77,19 +77,25 @@ public class Employee extends JInternalFrame {
         deleteButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                delete();
+                if( deleteButton.isEnabled() == true ) {
+                    delete();
+                }
             }
         });
         editButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                edit();
+                if( editButton.isEnabled() == true ) {
+                    edit();
+                }
             }
         });
         addButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                save();
+                if( addButton.isEnabled() == true ) {
+                    save();
+                }
             }
         });
     }

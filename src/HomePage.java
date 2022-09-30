@@ -158,6 +158,19 @@ public class HomePage extends JFrame {
             }
         });
 
+        checkOutButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Checkout checkout = null;
+                try {
+                    checkout = new Checkout();
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
+                checkout.setVisible(true);
+                layeredPane.add(checkout,new Integer(3));
+            }
+        });
     }
 
 
@@ -172,11 +185,34 @@ public class HomePage extends JFrame {
             button.setBackground(Color.RED);
     }
 
+    int roomId(String r){
+        if(r.equals("A01")){                    room_id = 1;
+        } else if (r.equals("A02")){                    room_id = 2;
+        }else if (r.equals("A03")){                    room_id = 3;
+        }else if (r.equals("A04")){                    room_id = 4;
+        }else if (r.equals("B01")){                    room_id = 5;
+        }else if (r.equals("B02")){                    room_id = 6;
+        }else if (r.equals("B03")){                    room_id = 7;
+        }else if (r.equals("B04")){                    room_id = 8;
+        }else if (r.equals("C01")){                    room_id = 9;
+        }else if (r.equals("C02")){                    room_id = 10;
+        }else if (r.equals("C03")){                    room_id = 11;
+        }else if (r.equals("C04")){                    room_id = 12;
+        }else if (r.equals("D01")){                    room_id = 13;
+        }else if (r.equals("D02")){                    room_id = 14;
+        }else if (r.equals("D03")){                    room_id = 15;
+        }else if (r.equals("D04")){                    room_id = 16;
+        } else {                    room_id = 0;
+        }
+        return room_id;
+    }
+
     MouseListener click(JButton buttonR){
         buttonR.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 String click = buttonR.getActionCommand();
+                roomId(click);
 
                 if(buttonR.getBackground().equals(Color.GRAY)  || buttonR.getBackground().equals(Color.RED) ){
                     b.setVisible(false);
@@ -184,24 +220,6 @@ public class HomePage extends JFrame {
                     b.setVisible(true);
                 }
 
-                if(click.equals("A01")){                    room_id = 1;
-                } else if (click.equals("A02")){                    room_id = 2;
-                }else if (click.equals("A03")){                    room_id = 3;
-                }else if (click.equals("A04")){                    room_id = 4;
-                }else if (click.equals("B01")){                    room_id = 5;
-                }else if (click.equals("B02")){                    room_id = 6;
-                }else if (click.equals("B03")){                    room_id = 7;
-                }else if (click.equals("B04")){                    room_id = 8;
-                }else if (click.equals("C01")){                    room_id = 9;
-                }else if (click.equals("C02")){                    room_id = 10;
-                }else if (click.equals("C03")){                    room_id = 11;
-                }else if (click.equals("C04")){                    room_id = 12;
-                }else if (click.equals("D01")){                    room_id = 13;
-                }else if (click.equals("D02")){                    room_id = 14;
-                }else if (click.equals("D03")){                    room_id = 15;
-                }else if (click.equals("D04")){                    room_id = 16;
-                } else {                    room_id = 0;
-                }
                 if( buttonSearch.isSelected()){
                     MSearch();
                 }else {
@@ -226,7 +244,6 @@ void CSearch(){
     b.bookingRoom(room_id);
 }
     void changeColorRoom(){
-
         try {
             String sql = "SELECT room_number FROM minihotel.room as r,minihotel.room_status as s where r.status_id = s.status_id AND r.status_id = 1";
             pre = con.prepareStatement(sql);
@@ -313,8 +330,8 @@ void CSearch(){
     void changeStatusRoom(){
         ArrayList<Integer> roomUna = new ArrayList<Integer>();
         try {
-            String sql = "SELECT booking_no, r.room_id, check_in, check_out FROM booking as b, room as r " +
-                    "where  b.room_id = r.room_id "; //AND booking_status_id Not in (3,4)
+            String sql = " SELECT booking_no, r.room_id, check_in, check_out, b.booking_status_id FROM booking as b, room as r, booking_status as bs \n" +
+                    "WHERE  b.room_id = r.room_id AND b.booking_status_id = bs.booking_status_id ";
             pre = con.prepareStatement(sql);
             rs = pre.executeQuery();
             String i, o;
@@ -334,6 +351,9 @@ void CSearch(){
                 LocalDate check_out = LocalDate.parse(o);
 
                 if (start.isBefore(check_out) && end.isAfter(check_in) ) { //เช็คห้องไม่ว่าง
+                    if( rs.getInt("b.booking_status_id") == 4 ){
+                        continue;
+                    }
                     roomUna.add(room_id);
                 } else {
                     try {
@@ -365,6 +385,7 @@ void CSearch(){
             ex.printStackTrace();
         }
 
+        // set label
         try {
             String sql = "SELECT COUNT(room_id) FROM room";
             pre = con.prepareStatement(sql);
@@ -408,7 +429,6 @@ void CSearch(){
         } catch (Exception e) {
             e.printStackTrace();
         }
-
                 changeColorRoom();
     }
     private JPanel home;
