@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="92719" binding="test" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="92719" binding="title_label" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -22,7 +22,7 @@
             </constraints>
             <properties>
               <font name="Leelawadee" size="20" style="1"/>
-              <text value="เลือกห้องพัก ที่ต้องการ CHECK-OUT"/>
+              <text value="เลือกห้องพัก ที่ต้องการ CHECK-IN"/>
             </properties>
           </component>
           <vspacer id="bf919">

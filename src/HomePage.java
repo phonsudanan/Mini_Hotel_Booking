@@ -171,6 +171,15 @@ public class HomePage extends JFrame {
                 layeredPane.add(checkout,new Integer(3));
             }
         });
+        checkInButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Checkin checkin = new Checkin();
+                checkin.setVisible(true);
+                layeredPane.add(checkin,new Integer(3));
+
+            }
+        });
     }
 
 
@@ -351,7 +360,7 @@ void CSearch(){
                 LocalDate check_out = LocalDate.parse(o);
 
                 if (start.isBefore(check_out) && end.isAfter(check_in) ) { //เช็คห้องไม่ว่าง
-                    if( rs.getInt("b.booking_status_id") == 4 ){
+                    if( rs.getInt("b.booking_status_id") == 4 ){  //booking_cancel
                         continue;
                     }
                     roomUna.add(room_id);
@@ -464,6 +473,7 @@ void CSearch(){
     private JLabel unavailable;
     private JLabel available;
     private JLabel repair;
+    private JButton checkInButton;
 
 
 }

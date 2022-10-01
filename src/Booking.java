@@ -11,14 +11,13 @@ public class Booking extends JFrame {
     private Connection conn = Connect.ConnectDB();
     private CalendarDateInDateOut c = new CalendarDateInDateOut();
 
-
     public static void main(String[] args) {
         UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
         UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
-       new Booking().setVisible(true);
+        new Booking().setVisible(true);
     }
 
-    public Booking(){
+    public Booking() {
         setTitle("ข้อมูลห้องพัก");
         setSize(400, 400);
         setLocationRelativeTo(null);
@@ -37,22 +36,23 @@ public class Booking extends JFrame {
             }
         });
     }
-    void setCancelButton(){
-        int result = JOptionPane.showConfirmDialog(null,"ออกจากหน้าจอการจอง ?","Close",JOptionPane.YES_NO_OPTION);
-        if(result == JOptionPane.YES_OPTION){
+
+    void setCancelButton() {
+        int result = JOptionPane.showConfirmDialog(null, "ออกจากหน้าจอการจอง ?", "Close", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
             setVisible(false);
         }
     }
 
-    void setConfirmButton(){
-        int result = JOptionPane.showConfirmDialog(null,"ยืนยันการจองห้องพัก ?","ยืนยันการจอง",JOptionPane.YES_NO_OPTION);
-        if(result == JOptionPane.YES_OPTION){
+    void setConfirmButton() {
+        int result = JOptionPane.showConfirmDialog(null, "ยืนยันการจองห้องพัก ?", "ยืนยันการจอง", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
             try {
                 HomePage h = new HomePage();
                 Login l = new Login();
                 int d1 = Integer.parseInt(day.getText());
                 int d2 = Integer.parseInt(price.getText());
-                int totalPrice = d1*d2;
+                int totalPrice = d1 * d2;
                 Date now = new Date();
                 Date parseDateIn = c.pattern.parse(in.getText());
                 Date parseDateOut = c.pattern.parse(out.getText());
@@ -75,52 +75,45 @@ public class Booking extends JFrame {
                 pre.setInt(10, totalPrice);
                 pre.setInt(11, 1);
                 if (pre.executeUpdate() != -1) {
-                    JOptionPane.showMessageDialog(null,"การจองสำเร็จ");
+                    JOptionPane.showMessageDialog(null, "การจองสำเร็จ");
                     customerName.setText("");
                     customerPhone.setText("");
-                    h.changeStatusRoom();
                     setVisible(false);
-
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-
-
         }
     }
 
-    void bookingRoom(int room_id){
-try {
-    CalendarSearch c = new CalendarSearch();
+    void bookingRoom(int room_id) {
+        try {
+            CalendarSearch c = new CalendarSearch();
 //    c.panelIn.
-    String sql = "SELECT room_id, room_number, type_th, area, price, status_name  FROM room as r, room_status as s, room_type as t "
-            + " WHERE r.status_id = s.status_id AND r.type_id = t.type_id AND room_id = " + room_id;
-    ResultSet rs = conn.createStatement().executeQuery(sql);
-    while (rs.next()) {
-        room.setText(rs.getString("room_number"));
-        area.setText(rs.getString("area"));
-        bed.setText(rs.getString("type_th"));
-        price.setText(rs.getString("price"));
+            String sql = "SELECT room_id, room_number, type_th, area, price, status_name  FROM room as r, room_status as s, room_type as t "
+                    + " WHERE r.status_id = s.status_id AND r.type_id = t.type_id AND room_id = " + room_id;
+            ResultSet rs = conn.createStatement().executeQuery(sql);
+            while (rs.next()) {
+                room.setText(rs.getString("room_number"));
+                area.setText(rs.getString("area"));
+                bed.setText(rs.getString("type_th"));
+                price.setText(rs.getString("price"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-}catch (Exception e){
-    e.printStackTrace();
-}
-
-
-    }
-
-     JPanel home;
-     JButton cancelButton;
-     JButton confirmButton;
-     JTextField customerName;
-     JLabel area;
-     JLabel bed;
-     JLabel price;
-     JLabel room;
-     JLabel in;
-     JLabel out;
-      JLabel day;
-     JTextField customerPhone;
+    JPanel home;
+    JButton cancelButton;
+    JButton confirmButton;
+    JTextField customerName;
+    JLabel area;
+    JLabel bed;
+    JLabel price;
+    JLabel room;
+    JLabel in;
+    JLabel out;
+    JLabel day;
+    JTextField customerPhone;
 }

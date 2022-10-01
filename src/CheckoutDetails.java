@@ -1,61 +1,65 @@
+import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class CheckoutDetails extends Booking {
-    private Connection conn = Connect.ConnectDB();
-    CheckoutDetails(){
-    setTitle("ข้อมูลห้องพัก");
-    setSize(400, 400);
-    setLocationRelativeTo(null);
+public class CheckoutDetails extends JFrame {
+    private Connection con = Connect.ConnectDB();
+    private ResultSet rs = null;
+    private PreparedStatement pre = null;
+    JButton CANCELButton;
+    JButton CHECKOUTButton;
+    private JPanel home;
+     JLabel booking_no;
+    JLabel room;
+    JLabel check_in;
+    JLabel check_out;
+    JLabel days;
+    JLabel total_price;
 
-        cancelButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                setCancelButton();
-            }
-        });
-        confirmButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                setConfirmButton();
-            }
-        });
-
+    CheckoutDetails() {
+        setTitle("ข้อมูลห้องพัก");
+        setSize(400, 400);
+        setContentPane(home);
+        setLocationRelativeTo(null);
+        setButton();
     }
-    @Override
-    public void bookingRoom(int room_id) {
-        try {
-        String sql = " SELECT room_number, area, type_th, check_in, check_out, days, total_price, customer_name, customer_phone " +
-                " FROM booking,room,room_type WHERE booking.room_id = room.room_id AND room_type.type_id = room.type_id AND room.room_id = " + room_id;
-        ResultSet rs = conn.createStatement().executeQuery(sql);
-        while (rs.next()) {
-            room.setText(rs.getString("room_number"));
-            area.setText(rs.getString("area"));
-            bed.setText(rs.getString("type_th"));
-            in.setText(rs.getString("check_in"));
-            out.setText(rs.getString("check_out"));
-            day.setText(rs.getString("days"));
-            price.setText(rs.getString("total_price"));
-            customerName.setText(rs.getString("customer_name"));
-            customerPhone.setText(rs.getString("customer_phone"));
+
+    void setButton(){
+        CANCELButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                setVisible(false);
+            }
+        });
+
+        CHECKOUTButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                setCHECKOUTButton();
+            }
+        });
+    }
+
+    void setCHECKOUTButton(){
+        int result = JOptionPane.showConfirmDialog(null, "คุณต้องการ CHECK-OUT ? ", "CHECK-OUT", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_NO_OPTION) {
+            try {
+                int b = Integer.parseInt(booking_no.getText());
+                String sql = " UPDATE booking SET booking_status_id = 3 WHERE booking_no = " + b;
+                pre = con.prepareStatement(sql);
+                rs = pre.executeQuery();
+                while (rs.next()) {
+                    pre.executeUpdate();
+                }
+                JOptionPane.showMessageDialog(null,"CHECK-OUT เรียบร้อย", "CHECK-OUT",JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
         }
-            customerName.setEditable(false);
-            customerPhone.setEditable(false);
-    }catch (Exception e){
-        e.printStackTrace();
-    }
-    }
-
-    @Override
-    public void setConfirmButton() {
-
-    }
-
-    @Override
-    public void setCancelButton() {
-
     }
 
 

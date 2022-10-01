@@ -14,9 +14,11 @@ public class Checkout extends JInternalFrame {
     private PreparedStatement pre = null;
     private JPanel home;
     private JPanel room;
-    private JPanel test;
-//    HomePage h = new HomePage();
+
+    private JPanel title_label;
     CheckoutDetails checkoutDetails = new CheckoutDetails();
+//    HomePage homePage = new HomePage();
+
     Checkout() throws ParseException {
         UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
         setTitle("Check-out ห้องพัก");
@@ -25,22 +27,24 @@ public class Checkout extends JInternalFrame {
         setClosable(true);
         setMaximizable(true);
 
-        room.setLayout(new GridLayout(0,4,20,10));  //row =0 มีแถวไม่จำกัด
+        room.setLayout(new GridLayout(0, 4, 20, 10));  //row =0 มีแถวไม่จำกัด
 
         checkoutRoom();
 
 
-
-
     }
 
-    private void checkoutRoom(){
+    private void checkoutRoom() {
         try {
-            String sql = " SELECT room_number FROM room as r, booking as b, booking_status as bs "
-            + " WHERE b.room_id = r.room_id AND b.booking_status_id = bs.booking_status_id AND b.booking_status_id = 2 ";
+            String sql = " SELECT room_number, booking_no, check_in, check_out, days, total_price "
+                    + "FROM booking as b, room as r, booking_status as bs, room_status as rs "
+                    + "WHERE b.room_id = r.room_id "
+                    + "AND r.status_id = rs.status_id  "
+                    + "AND b.booking_status_id = bs.booking_status_id "
+                    + "AND b.booking_status_id = 2 ORDER BY r.room_id ASC ";  //booking_status_id = 2 แขกกำลังพักในห้องทั้งหมด
             pre = con.prepareStatement(sql);
             rs = pre.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 JButton button = new JButton();
                 button.setText(rs.getString("room_number"));
                 room.add(button);
@@ -50,26 +54,39 @@ public class Checkout extends JInternalFrame {
             e.printStackTrace();
         }
     }
-    MouseListener click(JButton button){
+
+    MouseListener click(JButton button) {
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 String clickButton = button.getActionCommand();
-                System.out.println(clickButton);
-                roomId(clickButton);
-                System.out.println(roomId(clickButton));
-                checkoutDetails.bookingRoom(roomId(clickButton));
-
+                int id = roomId(clickButton);
+                try {
+                    String sql = " SELECT room_number, booking_no, check_in, check_out, days, total_price "
+                            + "FROM booking as b, room as r, booking_status as bs, room_status as rs "
+                            + "WHERE b.room_id = r.room_id "
+                            + "AND r.status_id = rs.status_id  "
+                            + "AND b.booking_status_id = bs.booking_status_id "
+                            + "AND b.booking_status_id = 2 "
+                            + "AND r.room_id = " + id;
+                    pre = con.prepareStatement(sql);
+                    rs = pre.executeQuery();
+                    while (rs.next()) {
+                        checkoutDetails.room.setText(rs.getString("room_number"));
+                        checkoutDetails.booking_no.setText(rs.getString("booking_no"));
+                        checkoutDetails.check_in.setText(rs.getString("check_in"));
+                        checkoutDetails.check_out.setText(rs.getString("check_out"));
+                        checkoutDetails.days.setText(rs.getString("days"));
+                        checkoutDetails.total_price.setText(rs.getString("total_price"));
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
                 checkoutDetails.setVisible(true);
-
-
-
             }
-
         });
         return null;
     }
-
     int roomId(String r){
         int room_id = 0;
         if(r.equals("A01")){                    room_id = 1;
@@ -92,9 +109,5 @@ public class Checkout extends JInternalFrame {
         }
         return room_id;
     }
-
-
-
-
 
 }
