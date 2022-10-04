@@ -20,12 +20,9 @@ public class HomePage extends JFrame {
     private Connection con = Connect.ConnectDB();
     PreparedStatement pre = null;
     ResultSet rs = null;
-    static long daysBetween;
     static int room_id;
-    static String dateStart;
-    static String dateEnd;
-    static  JDesktopPane desktop;
-    static  JLayeredPane layeredPane;
+    static JDesktopPane desktop;
+    static JLayeredPane layeredPane;
 
 
     public static void main(String[] args) throws ParseException {
@@ -35,17 +32,11 @@ public class HomePage extends JFrame {
     }
 
     public HomePage() throws ParseException {
-//                try {
-//                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
-//                         UnsupportedLookAndFeelException ex) {
-//                    ex.printStackTrace();
-//                }
         UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
         UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
 
         setTitle("Homepage");
-        setSize(1000,600);
+        setSize(1000, 600);
         setContentPane(home);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -53,37 +44,93 @@ public class HomePage extends JFrame {
         desktop = new JDesktopPane();
         layeredPane = getLayeredPane();
         layeredPane.add(desktop, new Integer(1));
-        layeredPane.add(home, new Integer(2));
 
         panelIn.setLayout(new BoxLayout(panelIn, BoxLayout.PAGE_AXIS));
+        panelIn.add(s.dateChooserStart, new GridBagLayout());
         panelOut.setLayout(new BoxLayout(panelOut, BoxLayout.PAGE_AXIS));
+        panelOut.add(s.dateChooserEnd, new GridBagLayout());
 
-
-        if (l.level ==3 || l.level ==2 ){
+        if (l.level == 3 || l.level == 2) {
             roomsButton.setEnabled(false);
             employeeButton.setEnabled(false);
         }
-        bookingButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                s.setVisible(true);
-            }
-        });
-
 
         buttonSearch.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                buttonSearch.setSelected(true);
-                dateStart = c.pattern.format(s.jdIn.getDate());
-                dateEnd = c.pattern.format(s.jdOut.getDate());
-                DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                LocalDate date1 = LocalDate.parse(dateStart, df);
-                LocalDate date2 = LocalDate.parse(dateEnd, df);
-                daysBetween = ChronoUnit.DAYS.between(date1, date2);
-                changeStatusRoom();
+                setButtonSearch();
             }
         });
+        bookingButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                s.panelIn.add(s.dateChooserStart, new GridBagLayout());
+                s.panelOut.add(s.dateChooserEnd, new GridBagLayout());
+                s.setVisible(true);
+            }
+        });
+        checkInButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Checkin checkin = new Checkin();
+                checkin.setVisible(true);
+                layeredPane.add(checkin, new Integer(2));
+            }
+        });
+        checkOutButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Checkout checkout = null;
+                try {
+                    checkout = new Checkout();
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
+                checkout.setVisible(true);
+                layeredPane.add(checkout, new Integer(3));
+            }
+        });
+        detailBookingButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+        });
+        roomsButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (l.level == 3 || l.level == 2) {
+                    roomsButton.setEnabled(false);
+                } else {
+                    Rooms room = new Rooms();
+                    room.setVisible(true);
+                    layeredPane.add(room, new Integer(5));
+                }
+            }
+        });
+        employeeButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (l.level == 3 || l.level == 2) {
+                    employeeButton.setEnabled(false);
+                } else {
+                    Employee emp = new Employee();
+                    emp.setVisible(true);
+                    layeredPane.add(emp, new Integer(5));
+                }
+            }
+        });
+        closeButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int confirm = JOptionPane.showConfirmDialog
+                        (null, "คุณต้องการออกจากระบบ ?", "Close", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
+
 
         A01.addMouseListener(click(A01));
         A02.addMouseListener(click(A02));
@@ -101,51 +148,8 @@ public class HomePage extends JFrame {
         D02.addMouseListener(click(D02));
         D03.addMouseListener(click(D03));
         D04.addMouseListener(click(D04));
-//        this.addWindowListener(new WindowAdapter() {
-//            @Override
-//            public void windowOpened(WindowEvent e) {
-//                changeStatusRoom();
-//            }
-//        });
-//        changeStatusRoom();
 
-
-        closeButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int confirm = JOptionPane.showConfirmDialog
-                        (null,"คุณต้องการออกจากระบบ ?","Close",JOptionPane.YES_NO_OPTION);
-                if(confirm == JOptionPane.YES_OPTION){
-                System.exit(0);
-                }
-            }
-        });
-
-        roomsButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (l.level ==3 || l.level ==2 ){
-                    roomsButton.setEnabled(false);
-                }else {
-                    Rooms room = new Rooms();
-                    room.setVisible(true);
-                    layeredPane.add(room, new Integer(3));
-                }
-            }
-        });
-        employeeButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (l.level ==3 || l.level ==2 ){
-                    employeeButton.setEnabled(false);
-                }else {
-                    Employee emp = new Employee();
-                    emp.setVisible(true);
-                    layeredPane.add(emp, new Integer(3));
-                }
-            }
-        });
-        emp_name.addMouseListener(new MouseAdapter() {
+        emp_name.addMouseListener(new MouseAdapter() {  //แก้ไขข้อมูลตนเอง
             @Override
             public void mouseClicked(MouseEvent e) {
                 PersonalDetails personal = null;
@@ -157,124 +161,135 @@ public class HomePage extends JFrame {
                 personal.setVisible(true);
             }
         });
-
-        checkOutButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Checkout checkout = null;
-                try {
-                    checkout = new Checkout();
-                } catch (ParseException ex) {
-                    throw new RuntimeException(ex);
-                }
-                checkout.setVisible(true);
-                layeredPane.add(checkout,new Integer(3));
-            }
-        });
-        checkInButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Checkin checkin = new Checkin();
-                checkin.setVisible(true);
-                layeredPane.add(checkin,new Integer(3));
-
-            }
-        });
+//        setButtonSearch();
     }
 
 
 
-    void roomAvailable(JButton button){
+    void roomAvailable(JButton button) {
         button.setBackground(Color.GREEN);
     }
-    void roomUnavailable(JButton button){
-            button.setBackground(Color.GRAY);
+    void roomUnavailable(JButton button) {
+        button.setBackground(Color.GRAY);
     }
-    void roomRepair(JButton button){
-            button.setBackground(Color.RED);
+    void roomRepair(JButton button) {
+        button.setBackground(Color.RED);
     }
 
-    int roomId(String r){
-        if(r.equals("A01")){                    room_id = 1;
-        } else if (r.equals("A02")){                    room_id = 2;
-        }else if (r.equals("A03")){                    room_id = 3;
-        }else if (r.equals("A04")){                    room_id = 4;
-        }else if (r.equals("B01")){                    room_id = 5;
-        }else if (r.equals("B02")){                    room_id = 6;
-        }else if (r.equals("B03")){                    room_id = 7;
-        }else if (r.equals("B04")){                    room_id = 8;
-        }else if (r.equals("C01")){                    room_id = 9;
-        }else if (r.equals("C02")){                    room_id = 10;
-        }else if (r.equals("C03")){                    room_id = 11;
-        }else if (r.equals("C04")){                    room_id = 12;
-        }else if (r.equals("D01")){                    room_id = 13;
-        }else if (r.equals("D02")){                    room_id = 14;
-        }else if (r.equals("D03")){                    room_id = 15;
-        }else if (r.equals("D04")){                    room_id = 16;
-        } else {                    room_id = 0;
+    int roomId(String r) {
+        if (r.equals("A01")) {
+            room_id = 1;
+        } else if (r.equals("A02")) {
+            room_id = 2;
+        } else if (r.equals("A03")) {
+            room_id = 3;
+        } else if (r.equals("A04")) {
+            room_id = 4;
+        } else if (r.equals("B01")) {
+            room_id = 5;
+        } else if (r.equals("B02")) {
+            room_id = 6;
+        } else if (r.equals("B03")) {
+            room_id = 7;
+        } else if (r.equals("B04")) {
+            room_id = 8;
+        } else if (r.equals("C01")) {
+            room_id = 9;
+        } else if (r.equals("C02")) {
+            room_id = 10;
+        } else if (r.equals("C03")) {
+            room_id = 11;
+        } else if (r.equals("C04")) {
+            room_id = 12;
+        } else if (r.equals("D01")) {
+            room_id = 13;
+        } else if (r.equals("D02")) {
+            room_id = 14;
+        } else if (r.equals("D03")) {
+            room_id = 15;
+        } else if (r.equals("D04")) {
+            room_id = 16;
+        } else {
+            room_id = 0;
         }
         return room_id;
     }
 
-    MouseListener click(JButton buttonR){
+    MouseListener click(JButton buttonR) {
         buttonR.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 String click = buttonR.getActionCommand();
                 roomId(click);
 
-                if(buttonR.getBackground().equals(Color.GRAY)  || buttonR.getBackground().equals(Color.RED) ){
+                if (buttonR.getBackground().equals(Color.GRAY) || buttonR.getBackground().equals(Color.RED)) {
                     b.setVisible(false);
                 } else {
                     b.setVisible(true);
                 }
-
-                if( buttonSearch.isSelected()){
                     MSearch();
-                }else {
-                    CSearch();
-                }
             }
         });
         return null;
     }
+    void setButtonSearch() {
+        panelIn.add(s.dateChooserStart, new GridBagLayout());
+        panelOut.add(s.dateChooserEnd, new GridBagLayout());
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate date1 = LocalDate.parse(c.pattern.format(s.dateChooserStart.getDate()), df);
+        LocalDate date2 = LocalDate.parse(c.pattern.format(s.dateChooserEnd.getDate()), df);
+        s.daysBetween = ChronoUnit.DAYS.between(date1, date2);
+        s.dateStart = c.pattern.format(s.dateChooserStart.getDate());
+        s.dateEnd = c.pattern.format(s.dateChooserEnd.getDate());
+        changeStatusRoom();
+    }
+    void MSearch() {
+        b.in.setText(s.dateStart);
+        b.out.setText(s.dateEnd);
+        b.day.setText(String.valueOf(s.daysBetween));
+        b.bookingRoom(room_id);
+    }
 
-void MSearch(){
-    b.in.setText(dateStart);
-    b.out.setText(dateEnd);
-    b.day.setText(String.valueOf(daysBetween));
-    b.bookingRoom(room_id);
-}
 
-void CSearch(){
-    b.in.setText(s.in);
-    b.out.setText(s.out);
-    b.day.setText(String.valueOf(s.daysBetween) );
-    b.bookingRoom(room_id);
-}
-    void changeColorRoom(){
+    void changeColorRoom() {
         try {
             String sql = "SELECT room_number FROM minihotel.room as r,minihotel.room_status as s where r.status_id = s.status_id AND r.status_id = 1";
             pre = con.prepareStatement(sql);
             rs = pre.executeQuery();
             while (rs.next()) {
                 String r = rs.getString("room_number");
-                if (A01.getText().equals(r)){                    roomAvailable(A01);
-                } else if (A02.getText().equals(r)) {                    roomAvailable(A02);
-                } else if (A03.getText().equals(r)) {                    roomAvailable(A03);
-                } else if (A04.getText().equals(r)) {                    roomAvailable(A04);
-                } else if (B01.getText().equals(r)) {                    roomAvailable(B01);
-                } else if (B02.getText().equals(r)) {                    roomAvailable(B02);
-                } else if (B03.getText().equals(r)) {                    roomAvailable(B03);
-                } else if (B04.getText().equals(r)) {                    roomAvailable(B04);
-                } else if (C01.getText().equals(r)) {                    roomAvailable(C01);
-                } else if (C02.getText().equals(r)) {                    roomAvailable(C02);
-                } else if (C03.getText().equals(r)) {                    roomAvailable(C03);
-                } else if (C04.getText().equals(r)) {                    roomAvailable(C04);
-                } else if (D01.getText().equals(r)) {                    roomAvailable(D01);
-                } else if (D02.getText().equals(r)) {                    roomAvailable(D02);
-                } else if (D03.getText().equals(r)) {                    roomAvailable(D03);
-                } else if (D04.getText().equals(r)) {                    roomAvailable(D04);
+                if (A01.getText().equals(r)) {
+                    roomAvailable(A01);
+                } else if (A02.getText().equals(r)) {
+                    roomAvailable(A02);
+                } else if (A03.getText().equals(r)) {
+                    roomAvailable(A03);
+                } else if (A04.getText().equals(r)) {
+                    roomAvailable(A04);
+                } else if (B01.getText().equals(r)) {
+                    roomAvailable(B01);
+                } else if (B02.getText().equals(r)) {
+                    roomAvailable(B02);
+                } else if (B03.getText().equals(r)) {
+                    roomAvailable(B03);
+                } else if (B04.getText().equals(r)) {
+                    roomAvailable(B04);
+                } else if (C01.getText().equals(r)) {
+                    roomAvailable(C01);
+                } else if (C02.getText().equals(r)) {
+                    roomAvailable(C02);
+                } else if (C03.getText().equals(r)) {
+                    roomAvailable(C03);
+                } else if (C04.getText().equals(r)) {
+                    roomAvailable(C04);
+                } else if (D01.getText().equals(r)) {
+                    roomAvailable(D01);
+                } else if (D02.getText().equals(r)) {
+                    roomAvailable(D02);
+                } else if (D03.getText().equals(r)) {
+                    roomAvailable(D03);
+                } else if (D04.getText().equals(r)) {
+                    roomAvailable(D04);
                 }
             }
         } catch (Exception ex) {
@@ -286,22 +301,38 @@ void CSearch(){
             rs = pre.executeQuery();
             while (rs.next()) {
                 String r = rs.getString("room_number");
-                if (A01.getText().equals(r)){                    roomUnavailable(A01);
-                } else if (A02.getText().equals(r)) {                    roomUnavailable(A02);
-                } else if (A03.getText().equals(r)) {                    roomUnavailable(A03);
-                } else if (A04.getText().equals(r)) {                    roomUnavailable(A04);
-                } else if (B01.getText().equals(r)) {                    roomUnavailable(B01);
-                } else if (B02.getText().equals(r)) {                    roomUnavailable(B02);
-                } else if (B03.getText().equals(r)) {                    roomUnavailable(B03);
-                } else if (B04.getText().equals(r)) {                    roomUnavailable(B04);
-                } else if (C01.getText().equals(r)) {                    roomUnavailable(C01);
-                } else if (C02.getText().equals(r)) {                    roomUnavailable(C02);
-                } else if (C03.getText().equals(r)) {                    roomUnavailable(C03);
-                } else if (C04.getText().equals(r)) {                    roomUnavailable(C04);
-                } else if (D01.getText().equals(r)) {                    roomUnavailable(D01);
-                } else if (D02.getText().equals(r)) {                    roomUnavailable(D02);
-                } else if (D03.getText().equals(r)) {                    roomUnavailable(D03);
-                } else if (D04.getText().equals(r)) {                    roomUnavailable(D04);
+                if (A01.getText().equals(r)) {
+                    roomUnavailable(A01);
+                } else if (A02.getText().equals(r)) {
+                    roomUnavailable(A02);
+                } else if (A03.getText().equals(r)) {
+                    roomUnavailable(A03);
+                } else if (A04.getText().equals(r)) {
+                    roomUnavailable(A04);
+                } else if (B01.getText().equals(r)) {
+                    roomUnavailable(B01);
+                } else if (B02.getText().equals(r)) {
+                    roomUnavailable(B02);
+                } else if (B03.getText().equals(r)) {
+                    roomUnavailable(B03);
+                } else if (B04.getText().equals(r)) {
+                    roomUnavailable(B04);
+                } else if (C01.getText().equals(r)) {
+                    roomUnavailable(C01);
+                } else if (C02.getText().equals(r)) {
+                    roomUnavailable(C02);
+                } else if (C03.getText().equals(r)) {
+                    roomUnavailable(C03);
+                } else if (C04.getText().equals(r)) {
+                    roomUnavailable(C04);
+                } else if (D01.getText().equals(r)) {
+                    roomUnavailable(D01);
+                } else if (D02.getText().equals(r)) {
+                    roomUnavailable(D02);
+                } else if (D03.getText().equals(r)) {
+                    roomUnavailable(D03);
+                } else if (D04.getText().equals(r)) {
+                    roomUnavailable(D04);
                 }
             }
         } catch (Exception ex) {
@@ -313,22 +344,38 @@ void CSearch(){
             rs = pre.executeQuery();
             while (rs.next()) {
                 String r = rs.getString("room_number");
-                if (A01.getText().equals(r)){                    roomRepair(A01);
-                } else if (A02.getText().equals(r)) {                    roomRepair(A02);
-                } else if (A03.getText().equals(r)) {                    roomRepair(A03);
-                } else if (A04.getText().equals(r)) {                    roomRepair(A04);
-                } else if (B01.getText().equals(r)) {                    roomRepair(B01);
-                } else if (B02.getText().equals(r)) {                    roomRepair(B02);
-                } else if (B03.getText().equals(r)) {                    roomRepair(B03);
-                } else if (B04.getText().equals(r)) {                    roomRepair(B04);
-                } else if (C01.getText().equals(r)) {                    roomRepair(C01);
-                } else if (C02.getText().equals(r)) {                    roomRepair(C02);
-                } else if (C03.getText().equals(r)) {                    roomRepair(C03);
-                } else if (C04.getText().equals(r)) {                    roomRepair(C04);
-                } else if (D01.getText().equals(r)) {                    roomRepair(D01);
-                } else if (D02.getText().equals(r)) {                    roomRepair(D02);
-                } else if (D03.getText().equals(r)) {                    roomRepair(D03);
-                } else if (D04.getText().equals(r)) {                    roomRepair(D04);
+                if (A01.getText().equals(r)) {
+                    roomRepair(A01);
+                } else if (A02.getText().equals(r)) {
+                    roomRepair(A02);
+                } else if (A03.getText().equals(r)) {
+                    roomRepair(A03);
+                } else if (A04.getText().equals(r)) {
+                    roomRepair(A04);
+                } else if (B01.getText().equals(r)) {
+                    roomRepair(B01);
+                } else if (B02.getText().equals(r)) {
+                    roomRepair(B02);
+                } else if (B03.getText().equals(r)) {
+                    roomRepair(B03);
+                } else if (B04.getText().equals(r)) {
+                    roomRepair(B04);
+                } else if (C01.getText().equals(r)) {
+                    roomRepair(C01);
+                } else if (C02.getText().equals(r)) {
+                    roomRepair(C02);
+                } else if (C03.getText().equals(r)) {
+                    roomRepair(C03);
+                } else if (C04.getText().equals(r)) {
+                    roomRepair(C04);
+                } else if (D01.getText().equals(r)) {
+                    roomRepair(D01);
+                } else if (D02.getText().equals(r)) {
+                    roomRepair(D02);
+                } else if (D03.getText().equals(r)) {
+                    roomRepair(D03);
+                } else if (D04.getText().equals(r)) {
+                    roomRepair(D04);
                 }
             }
         } catch (Exception ex) {
@@ -336,7 +383,7 @@ void CSearch(){
         }
     }
 
-    void changeStatusRoom(){
+    void changeStatusRoom() {
         ArrayList<Integer> roomUna = new ArrayList<Integer>();
         try {
             String sql = " SELECT booking_no, r.room_id, check_in, check_out, b.booking_status_id FROM booking as b, room as r, booking_status as bs \n" +
@@ -345,12 +392,10 @@ void CSearch(){
             rs = pre.executeQuery();
             String i, o;
             int room_id;
-            String s1 = c.patternSQL.format(s.jdIn.getDate());
-            String s2 = c.patternSQL.format(s.jdOut.getDate());
-//            JDateChooser n = c.DatenowSQL();
-//            String sNow = c.patternSQL.format(n.getDate());
-                LocalDate start = LocalDate.parse(s1);
-                LocalDate end = LocalDate.parse(s2);
+            String s1 = c.patternSQL.format(s.dateChooserStart.getDate());
+            String s2 = c.patternSQL.format(s.dateChooserEnd.getDate());
+            LocalDate start = LocalDate.parse(s1);
+            LocalDate end = LocalDate.parse(s2);
             while (rs.next()) {
                 room_id = rs.getInt("room_id");
                 i = rs.getString("check_in");
@@ -359,8 +404,8 @@ void CSearch(){
                 LocalDate check_in = LocalDate.parse(i);
                 LocalDate check_out = LocalDate.parse(o);
 
-                if (start.isBefore(check_out) && end.isAfter(check_in) ) { //เช็คห้องไม่ว่าง
-                    if( rs.getInt("b.booking_status_id") == 4 ){  //booking_cancel
+                if (start.isBefore(check_out) && end.isAfter(check_in)) { //เช็คห้องไม่ว่าง
+                    if (rs.getInt("b.booking_status_id") == 4) {  //booking_cancel
                         continue;
                     }
                     roomUna.add(room_id);
@@ -379,16 +424,16 @@ void CSearch(){
             try {
                 String una = "UPDATE room SET status_id = 2 WHERE room_id = ? ";
                 pre = con.prepareStatement(una);
-                    for (int r = 0; r < roomUna.size(); r++) {
-                        pre.setInt(1, roomUna.get(r));
-                        pre.executeUpdate();
+                for (int r = 0; r < roomUna.size(); r++) {
+                    pre.setInt(1, roomUna.get(r));
+                    pre.executeUpdate();
 //                        if (pre.executeUpdate() != -1) {
 //                        System.out.println(roomUna.get(r));
 //                        }
-            }
+                }
             } catch (Exception ex) {
                 ex.printStackTrace();
-        }
+            }
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -438,12 +483,13 @@ void CSearch(){
         } catch (Exception e) {
             e.printStackTrace();
         }
-                changeColorRoom();
+        changeColorRoom();
     }
+
     private JPanel home;
     private JButton closeButton;
     private JButton bookingButton;
-    private JButton ดูข้อมูลการจองButton;
+    private JButton detailBookingButton;
     private JButton roomsButton;
     private JButton employeeButton;
     private JButton checkOutButton;

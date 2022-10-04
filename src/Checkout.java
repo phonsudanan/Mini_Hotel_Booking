@@ -41,7 +41,8 @@ public class Checkout extends JInternalFrame {
                     + "WHERE b.room_id = r.room_id "
                     + "AND r.status_id = rs.status_id  "
                     + "AND b.booking_status_id = bs.booking_status_id "
-                    + "AND b.booking_status_id = 2 ORDER BY r.room_id ASC ";  //booking_status_id = 2 แขกกำลังพักในห้องทั้งหมด
+                    + " AND check_out =  CONCAT(YEAR(NOW())+543, '-', MONTH(NOW()), '-', DAY(NOW()))  "
+                    + "AND b.booking_status_id = 2 ORDER BY r.room_id ASC ";  //booking_status_id = 2 แขกกำลังพักในห้อง
             pre = con.prepareStatement(sql);
             rs = pre.executeQuery();
             while (rs.next()) {
@@ -62,18 +63,18 @@ public class Checkout extends JInternalFrame {
                 String clickButton = button.getActionCommand();
                 int id = roomId(clickButton);
                 try {
-                    String sql = " SELECT room_number, booking_no, check_in, check_out, days, total_price "
-                            + "FROM booking as b, room as r, booking_status as bs, room_status as rs "
-                            + "WHERE b.room_id = r.room_id "
-                            + "AND r.status_id = rs.status_id  "
-                            + "AND b.booking_status_id = bs.booking_status_id "
-                            + "AND b.booking_status_id = 2 "
-                            + "AND r.room_id = " + id;
+                    String sql = " SELECT room_number, booking_no, customer_name, check_in, check_out, days, total_price "
+                            + " FROM booking AS b, room AS r "
+                            + " WHERE b.room_id = r.room_id "
+                            + " AND check_out =  CONCAT(YEAR(NOW())+543, '-', MONTH(NOW()), '-', DAY(NOW()))  " //บวกเป็น พศ
+                            + " AND room_number =  " + "'" + clickButton + "'";
+
                     pre = con.prepareStatement(sql);
                     rs = pre.executeQuery();
                     while (rs.next()) {
                         checkoutDetails.room.setText(rs.getString("room_number"));
                         checkoutDetails.booking_no.setText(rs.getString("booking_no"));
+                        checkoutDetails.customer_name.setText(rs.getString("customer_name"));
                         checkoutDetails.check_in.setText(rs.getString("check_in"));
                         checkoutDetails.check_out.setText(rs.getString("check_out"));
                         checkoutDetails.days.setText(rs.getString("days"));

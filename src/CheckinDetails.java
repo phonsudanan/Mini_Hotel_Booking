@@ -1,11 +1,9 @@
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class CheckinDetails extends CheckoutDetails {
     private Connection con = Connect.ConnectDB();
-    private ResultSet rs = null;
     private PreparedStatement pre = null;
     CheckinDetails() {
         CHECKOUTButton.setText("CHECK_IN");
@@ -21,6 +19,7 @@ public class CheckinDetails extends CheckoutDetails {
                 pre = con.prepareStatement(sql);
                 if (pre.executeUpdate() != -1) {
                     JOptionPane.showMessageDialog(null, "CHECK-IN เรียบร้อย", "CHECK-IN", JOptionPane.INFORMATION_MESSAGE);
+                    setVisible(false);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();

@@ -26,7 +26,7 @@ public class CalendarDateInDateOut {
         return now;
     }
 
-    public JDateChooser calendarIn () throws ParseException {
+    public JDateChooser calendarIn ()  {
         Locale locale = new Locale("th", "TH");
         ThaiBuddhistDate thai = ThaiBuddhistDate.now(ZoneId.systemDefault());
 
@@ -50,7 +50,7 @@ public class CalendarDateInDateOut {
         return calendarIn;
     }
 
-    public JDateChooser calendarOut() throws ParseException {
+    public JDateChooser calendarOut() {
         Locale locale = new Locale("th", "TH");
         ThaiBuddhistDate thai = ThaiBuddhistDate.now(ZoneId.systemDefault());
 

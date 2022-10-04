@@ -22,7 +22,7 @@
             </constraints>
             <properties>
               <font name="Leelawadee" size="20" style="1"/>
-              <text value="เลือกห้องพัก ที่ต้องการ CHECK-IN"/>
+              <text value="เลือกห้องพัก ที่ต้องการ CHECK-OUT"/>
             </properties>
           </component>
           <vspacer id="bf919">

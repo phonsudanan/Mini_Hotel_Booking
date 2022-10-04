@@ -1,28 +1,27 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.ParseException;
 import java.util.Date;
 
 public class Booking extends JFrame {
-    private Connection conn = Connect.ConnectDB();
+    private Connection con = Connect.ConnectDB();
     private CalendarDateInDateOut c = new CalendarDateInDateOut();
 
-    public static void main(String[] args) {
-        UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
-        UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
-        new Booking().setVisible(true);
-    }
+//    public static void main(String[] args) {
+//        UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
+//        UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
+//        new Booking().setVisible(true);
+//    }
 
     public Booking() {
         setTitle("ข้อมูลห้องพัก");
         setSize(400, 400);
         setLocationRelativeTo(null);
         setContentPane(home);
-//        BookingRoom(001);
         cancelButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -32,7 +31,11 @@ public class Booking extends JFrame {
         confirmButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                setConfirmButton();
+                try {
+                    setConfirmButton();
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }
@@ -44,12 +47,13 @@ public class Booking extends JFrame {
         }
     }
 
-    void setConfirmButton() {
+    void setConfirmButton() throws ParseException {
+        HomePage h = new HomePage();
+        Login l = new Login();
+        CalendarSearch s = new CalendarSearch();
         int result = JOptionPane.showConfirmDialog(null, "ยืนยันการจองห้องพัก ?", "ยืนยันการจอง", JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_OPTION) {
             try {
-                HomePage h = new HomePage();
-                Login l = new Login();
                 int d1 = Integer.parseInt(day.getText());
                 int d2 = Integer.parseInt(price.getText());
                 int totalPrice = d1 * d2;
@@ -62,7 +66,7 @@ public class Booking extends JFrame {
                 String sql = "INSERT INTO booking (booking_no,booking_date,check_in,check_out,days,customer_name,customer_phone," +
                         "room_id,emp_name,total_price, booking_status_id) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
-                PreparedStatement pre = conn.prepareStatement(sql);
+                PreparedStatement pre = con.prepareStatement(sql);
                 pre.setString(1, null);
                 pre.setString(2, c.patternSQL.format(now));
                 pre.setString(3, c.patternSQL.format(parseDateIn));
@@ -74,6 +78,7 @@ public class Booking extends JFrame {
                 pre.setString(9, l.uName);
                 pre.setInt(10, totalPrice);
                 pre.setInt(11, 1);
+
                 if (pre.executeUpdate() != -1) {
                     JOptionPane.showMessageDialog(null, "การจองสำเร็จ");
                     customerName.setText("");
@@ -88,11 +93,9 @@ public class Booking extends JFrame {
 
     void bookingRoom(int room_id) {
         try {
-            CalendarSearch c = new CalendarSearch();
-//    c.panelIn.
             String sql = "SELECT room_id, room_number, type_th, area, price, status_name  FROM room as r, room_status as s, room_type as t "
                     + " WHERE r.status_id = s.status_id AND r.type_id = t.type_id AND room_id = " + room_id;
-            ResultSet rs = conn.createStatement().executeQuery(sql);
+            ResultSet rs = con.createStatement().executeQuery(sql);
             while (rs.next()) {
                 room.setText(rs.getString("room_number"));
                 area.setText(rs.getString("area"));

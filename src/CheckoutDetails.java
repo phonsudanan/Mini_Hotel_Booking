@@ -18,6 +18,7 @@ public class CheckoutDetails extends JFrame {
     JLabel check_out;
     JLabel days;
     JLabel total_price;
+     JLabel customer_name;
 
     CheckoutDetails() {
         setTitle("ข้อมูลห้องพัก");
@@ -50,11 +51,12 @@ public class CheckoutDetails extends JFrame {
                 int b = Integer.parseInt(booking_no.getText());
                 String sql = " UPDATE booking SET booking_status_id = 3 WHERE booking_no = " + b;
                 pre = con.prepareStatement(sql);
-                rs = pre.executeQuery();
-                while (rs.next()) {
-                    pre.executeUpdate();
+                if (pre.executeUpdate() != -1) {
+                    JOptionPane.showMessageDialog(null,"CHECK-OUT เรียบร้อย", "CHECK-OUT",JOptionPane.INFORMATION_MESSAGE);
+                    setVisible(false);
+                    Checkout checkout = new Checkout();
+                    checkout.setVisible(false);
                 }
-                JOptionPane.showMessageDialog(null,"CHECK-OUT เรียบร้อย", "CHECK-OUT",JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
