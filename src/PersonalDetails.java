@@ -1,9 +1,16 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,11 +31,16 @@ public class PersonalDetails extends JFrame {
     private JButton cancelButton;
     private JButton chengeButton;
     private JTextField textId;
+    private JLabel photo;
+    private JButton choooseFileButton;
+    BufferedImage newImg = null;
+    Employee emp = new Employee();
+    ImageIcon imgEmp;
     Login login = new Login();
     PersonalDetails() throws ParseException {
         UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
         setTitle("ข้อมูลส่วนตัว");
-        setSize(500, 450);
+        setSize(500, 550);
         setContentPane(home);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -56,6 +68,32 @@ public class PersonalDetails extends JFrame {
                 setVisible(false);
             }
         });
+        choooseFileButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                JFileChooser fileOpen = new JFileChooser();
+                fileOpen.setFont(new Font("Leelawadee", Font.PLAIN, 12));
+                FileNameExtensionFilter filterImage = new FileNameExtensionFilter ("Image File", "png", "jpg");
+                fileOpen.addChoosableFileFilter(filterImage);
+                fileOpen.setAcceptAllFileFilterUsed ( false );
+                int ret = fileOpen.showDialog(null, "Choose File");
+                if ( ret == JFileChooser.APPROVE_OPTION ){
+                    String file = fileOpen.getSelectedFile().toString();
+                    Path source = Paths.get(file);
+                     //reSize image
+                    try {
+                        newImg = emp.resizeImage(source, 150, 150);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    imgEmp = new ImageIcon(newImg);
+                    photo.setText("");
+                    photo.setIcon(imgEmp);
+                }
+            }
+
+        });
     }
 
     private void showPersonalDetails(){
@@ -76,6 +114,11 @@ public class PersonalDetails extends JFrame {
                 textUsername.setText(rs.getString("username"));
                 textPassword.setText(rs.getString("password"));
             }
+            String stringImg = "C:\\Users\\phons\\IdeaProjects\\Mini_Hotel_Booking\\imageEmployee\\"
+                    + textId.getText().trim() + ".png";
+            imgEmp = new ImageIcon(stringImg);
+            photo.setText("");
+            photo.setIcon(imgEmp);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -106,7 +149,14 @@ public class PersonalDetails extends JFrame {
                     pre.setString(4, textUsername.getText().trim());
                     pre.setString(5, textPassword.getText().trim());
                     pre.setString(6, textId.getText().trim());
-
+                    if( newImg != null){
+                        File f = new File("imageEmployee\\" + textId.getText() + ".png");
+                        try {
+                            ImageIO.write(newImg, "png", f);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     if (pre.executeUpdate() != -1) {
                         JOptionPane.showMessageDialog(this, "แก้ไขข้อมูลเรียบร้อยแล้ว");
                     }

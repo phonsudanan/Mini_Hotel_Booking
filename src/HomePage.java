@@ -41,14 +41,20 @@ public class HomePage extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        desktop = new JDesktopPane();
+//        desktop = new JDesktopPane();
         layeredPane = getLayeredPane();
-        layeredPane.add(desktop, new Integer(1));
+//        layeredPane.add(desktop, new Integer(1));
 
         panelIn.setLayout(new BoxLayout(panelIn, BoxLayout.PAGE_AXIS));
         panelIn.add(s.dateChooserStart, new GridBagLayout());
         panelOut.setLayout(new BoxLayout(panelOut, BoxLayout.PAGE_AXIS));
         panelOut.add(s.dateChooserEnd, new GridBagLayout());
+
+        String stringImg = "C:\\Users\\phons\\IdeaProjects\\Mini_Hotel_Booking\\imageEmployee\\"
+                + l.id + ".png";
+        ImageIcon imgEmp = new ImageIcon(stringImg);
+        photo.setText("");
+        photo.setIcon(imgEmp);
 
         if (l.level == 3 || l.level == 2) {
             roomsButton.setEnabled(false);
@@ -80,20 +86,17 @@ public class HomePage extends JFrame {
         checkOutButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Checkout checkout = null;
-                try {
-                    checkout = new Checkout();
-                } catch (ParseException ex) {
-                    throw new RuntimeException(ex);
-                }
+                Checkout checkout = new Checkout();
                 checkout.setVisible(true);
-                layeredPane.add(checkout, new Integer(3));
+                layeredPane.add(checkout, new Integer(2));
             }
         });
         detailBookingButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                BookingDetails bookingDetails = new BookingDetails();
+                bookingDetails.setVisible(true);
+                layeredPane.add(bookingDetails, new Integer(4));
             }
         });
         roomsButton.addMouseListener(new MouseAdapter() {
@@ -520,6 +523,7 @@ public class HomePage extends JFrame {
     private JLabel available;
     private JLabel repair;
     private JButton checkInButton;
+    private JLabel photo;
 
 
 }

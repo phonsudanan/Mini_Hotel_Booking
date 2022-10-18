@@ -3,11 +3,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class CheckoutDetails extends JFrame {
     private Connection con = Connect.ConnectDB();
-    private ResultSet rs = null;
     private PreparedStatement pre = null;
     JButton CANCELButton;
     JButton CHECKOUTButton;
@@ -54,9 +52,8 @@ public class CheckoutDetails extends JFrame {
                 if (pre.executeUpdate() != -1) {
                     JOptionPane.showMessageDialog(null,"CHECK-OUT เรียบร้อย", "CHECK-OUT",JOptionPane.INFORMATION_MESSAGE);
                     setVisible(false);
-                    Checkout checkout = new Checkout();
-                    checkout.setVisible(false);
                 }
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

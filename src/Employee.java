@@ -1,12 +1,18 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +22,10 @@ public class Employee extends JInternalFrame {
     private ResultSet rs = null;
     private PreparedStatement pre = null;
     private DefaultTableModel modelEmployee;
+    ImageIcon imgEmp;
+    BufferedImage newImg, newResize ;
+    static int imgWidth = 150;
+    static int imgHeight = 150;
 
     Employee() {
         UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
@@ -39,7 +49,74 @@ public class Employee extends JInternalFrame {
         });
 
 
+        choooseFileButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    setChoooseFileButton();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
+     void setChoooseFileButton() throws IOException {
+        JFileChooser fileOpen = new JFileChooser();
+        fileOpen.setFont(new Font("Leelawadee", Font.PLAIN, 12));
+        FileNameExtensionFilter filterImage = new FileNameExtensionFilter ("Image File", "png", "jpg");
+        fileOpen.addChoosableFileFilter(filterImage);
+        fileOpen.setAcceptAllFileFilterUsed ( false );
+        int ret = fileOpen.showDialog(null, "Choose File");
+        if ( ret == JFileChooser.APPROVE_OPTION ){
+            String file = fileOpen.getSelectedFile().toString();
+            Path source = Paths.get(file);
+            newImg = resizeImage(source, imgWidth, imgHeight); //reSize image
+            imgEmp = new ImageIcon(newImg);
+            photo.setText("");
+            photo.setIcon(imgEmp);
+            String sub = file.substring(file.lastIndexOf("\\")+1, file.lastIndexOf("."));
+            fileName.setText(sub);
+        }
+    }
+
+
+     BufferedImage resizeImage(Path taget, int width, int height) throws IOException {
+        BufferedImage original = ImageIO.read(taget.toFile());
+        Image resize = original.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+        if (resize instanceof BufferedImage){
+            return (BufferedImage) resize;
+        }
+        newResize = new BufferedImage(resize.getWidth(null), resize.getHeight(null),
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics2D graphics2D = newResize.createGraphics(); //สร้างภาพ
+        graphics2D.drawImage(resize,0,0,null);
+        graphics2D.dispose();
+//        writeImage(newResize);
+        return newResize;
+    }
+
+     void writeImage(BufferedImage img){  //save photo ตั้งชื่อใหม่ ตามรหัสพนักงาน
+        File f = new File("imageEmployee\\" + textId.getText() + ".png");
+        try {
+            ImageIO.write(img, "png", f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+//    private void saveImage(){
+//        String file = fileName.getText().trim();
+//        String fileNameCopy = file.substring(file.lastIndexOf("\\")+1, file.length());
+//        String desFile = null;
+//        try {
+//            desFile = new File(".").getCanonicalPath() + "\\img\\" +fileNameCopy;
+//            Files.copy(Paths.get(file), Paths.get(desFile),
+//                    StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private void initComponents() {
         searchEmp.addKeyListener(new KeyAdapter() {
@@ -112,6 +189,9 @@ public class Employee extends JInternalFrame {
         textLevel.setSelectedIndex(0);
         textUsername.setText("");
         textPassword.setText("");
+        fileName.setText("");
+        photo.setIcon(null);
+        photo.setText("รูปภาพ");
 
         addButton.setEnabled(true);
         deleteButton.setEnabled(false);
@@ -142,6 +222,9 @@ public class Employee extends JInternalFrame {
                         textLevel.setSelectedIndex(0);
                         textUsername.setText("");
                         textPassword.setText("");
+                        fileName.setText("");
+                        photo.setIcon(null);
+                        photo.setText("รูปภาพ");
                         showDataEmployee();
                     }
 
@@ -178,7 +261,9 @@ public class Employee extends JInternalFrame {
                     pre.setInt(4, posID(textPosition.getSelectedItem().toString().trim()));
                     pre.setInt(5, levelID(textLevel.getSelectedItem().toString().trim()));
                     pre.setString(6, textId.getText().trim());
-
+                    if( newResize != null){
+                        writeImage(newResize);
+                    }
                     if (pre.executeUpdate() != -1) {
                         JOptionPane.showMessageDialog(this, "แก้ไขข้อมูล รหัสพนักงาน " + id + " เรียบร้อยแล้ว");
                         textId.setText("");
@@ -189,6 +274,9 @@ public class Employee extends JInternalFrame {
                         textLevel.setSelectedIndex(0);
                         textUsername.setText("");
                         textPassword.setText("");
+                        fileName.setText("");
+                        photo.setIcon(null);
+                        photo.setText("รูปภาพ");
                         showDataEmployee();
                     }
                 } catch (Exception e) {
@@ -229,7 +317,7 @@ public class Employee extends JInternalFrame {
                     }
                     if(u==0) {
                         try {
-                            String sql = " INSERT INTO employee (emp_id, name, address, phone, pos_id, level_id, username, password) Values(?,?,?,?,?,?,?,?) ";
+                            String sql = " INSERT INTO employee (emp_id, name, address, phone, pos_id, level_id, username, password, file_id) Values(?,?,?,?,?,?,?,?,?) ";
                             pre = con.prepareStatement(sql);
                             pre.setString(1, textId.getText().trim());
                             pre.setString(2, textName.getText().trim());
@@ -239,6 +327,8 @@ public class Employee extends JInternalFrame {
                             pre.setInt(6, levelID(textLevel.getSelectedItem().toString()));
                             pre.setString(7, textUsername.getText().trim());
                             pre.setString(8, textPassword.getText().trim());
+                            pre.setString(9, textId.getText().trim());
+                            writeImage(newResize);  //save รูป ชื่อตาม id
                             pre.executeUpdate();
                             JOptionPane.showMessageDialog
                                     (this, "บันทึกรายการแล้ว", "ผลการบันทึกรายการ", JOptionPane.INFORMATION_MESSAGE);
@@ -251,6 +341,9 @@ public class Employee extends JInternalFrame {
                             textLevel.setSelectedIndex(0);
                             textUsername.setText("");
                             textPassword.setText("");
+                            fileName.setText("");
+                            photo.setIcon(null);
+                            photo.setText("รูปภาพ");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -330,6 +423,13 @@ public class Employee extends JInternalFrame {
         textPosition.setSelectedItem(tableEmployee.getValueAt(index, 4).toString());
         textLevel.setSelectedItem(tableEmployee.getValueAt(index, 5).toString());
 
+        String stringImg = "C:\\Users\\phons\\IdeaProjects\\Mini_Hotel_Booking\\imageEmployee\\"
+                + tableEmployee.getValueAt(index, 0).toString() + ".png";
+
+        fileName.setText(stringImg.substring(stringImg.lastIndexOf("\\")+1, stringImg.lastIndexOf(".")));
+        imgEmp = new ImageIcon(stringImg);
+        photo.setText("");
+        photo.setIcon(imgEmp);
         editButton.setEnabled(true);
         deleteButton.setEnabled(true);
         addButton.setEnabled(false);
@@ -420,4 +520,7 @@ public class Employee extends JInternalFrame {
     private JButton addButton;
     private JScrollPane scrollbar;
     private JTextField searchEmp;
+    private JLabel photo;
+    private JButton choooseFileButton;
+    private JLabel fileName;
 }

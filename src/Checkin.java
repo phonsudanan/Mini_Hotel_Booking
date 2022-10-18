@@ -18,7 +18,7 @@ public class Checkin extends JInternalFrame {
 
     Checkin() {
         UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
-        setTitle("Check-out ห้องพัก");
+        setTitle("Check-in ห้องพัก");
         setSize(900, 500);
         setContentPane(home);
         setClosable(true);
@@ -82,6 +82,7 @@ public class Checkin extends JInternalFrame {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
+                setVisible(false);
                 checkinDetails.setVisible(true);
             }
         });
