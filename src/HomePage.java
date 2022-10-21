@@ -24,7 +24,6 @@ public class HomePage extends JFrame {
     static JDesktopPane desktop;
     static JLayeredPane layeredPane;
 
-
     public static void main(String[] args) throws ParseException {
         UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
         UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
@@ -32,8 +31,8 @@ public class HomePage extends JFrame {
     }
 
     public HomePage() throws ParseException {
-        UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
-        UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
+//        UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
+//        UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
 
         setTitle("Homepage");
         setSize(1000, 600);
@@ -41,18 +40,16 @@ public class HomePage extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-//        desktop = new JDesktopPane();
+        desktop = new JDesktopPane();
         layeredPane = getLayeredPane();
-//        layeredPane.add(desktop, new Integer(1));
+        layeredPane.add(desktop, new Integer(1));
 
         panelIn.setLayout(new BoxLayout(panelIn, BoxLayout.PAGE_AXIS));
         panelIn.add(s.dateChooserStart, new GridBagLayout());
         panelOut.setLayout(new BoxLayout(panelOut, BoxLayout.PAGE_AXIS));
         panelOut.add(s.dateChooserEnd, new GridBagLayout());
 
-        String stringImg = "C:\\Users\\phons\\IdeaProjects\\Mini_Hotel_Booking\\imageEmployee\\"
-                + l.id + ".png";
-        ImageIcon imgEmp = new ImageIcon(stringImg);
+        ImageIcon imgEmp = new ImageIcon(l.stringImg);
         photo.setText("");
         photo.setIcon(imgEmp);
 
@@ -79,24 +76,24 @@ public class HomePage extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 Checkin checkin = new Checkin();
-                checkin.setVisible(true);
                 layeredPane.add(checkin, new Integer(2));
+                checkin.setVisible(true);
             }
         });
         checkOutButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 Checkout checkout = new Checkout();
-                checkout.setVisible(true);
                 layeredPane.add(checkout, new Integer(2));
+                checkout.setVisible(true);
             }
         });
         detailBookingButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 BookingDetails bookingDetails = new BookingDetails();
-                bookingDetails.setVisible(true);
                 layeredPane.add(bookingDetails, new Integer(4));
+                bookingDetails.setVisible(true);
             }
         });
         roomsButton.addMouseListener(new MouseAdapter() {
@@ -106,8 +103,8 @@ public class HomePage extends JFrame {
                     roomsButton.setEnabled(false);
                 } else {
                     Rooms room = new Rooms();
-                    room.setVisible(true);
                     layeredPane.add(room, new Integer(5));
+                    room.setVisible(true);
                 }
             }
         });
@@ -118,8 +115,8 @@ public class HomePage extends JFrame {
                     employeeButton.setEnabled(false);
                 } else {
                     Employee emp = new Employee();
-                    emp.setVisible(true);
                     layeredPane.add(emp, new Integer(5));
+                    emp.setVisible(true);
                 }
             }
         });
@@ -164,7 +161,6 @@ public class HomePage extends JFrame {
                 personal.setVisible(true);
             }
         });
-//        setButtonSearch();
     }
 
 
@@ -256,7 +252,7 @@ public class HomePage extends JFrame {
 
     void changeColorRoom() {
         try {
-            String sql = "SELECT room_number FROM minihotel.room as r,minihotel.room_status as s where r.status_id = s.status_id AND r.status_id = 1";
+            String sql = "SELECT room_number FROM room as r, room_status as s where r.status_id = s.status_id AND r.status_id = 1";
             pre = con.prepareStatement(sql);
             rs = pre.executeQuery();
             while (rs.next()) {
@@ -299,7 +295,7 @@ public class HomePage extends JFrame {
             ex.printStackTrace();
         }
         try {
-            String sql = "SELECT room_number FROM minihotel.room as r,minihotel.room_status as s where r.status_id = s.status_id AND r.status_id = 2";
+            String sql = "SELECT room_number FROM room as r,room_status as s where r.status_id = s.status_id AND r.status_id = 2";
             pre = con.prepareStatement(sql);
             rs = pre.executeQuery();
             while (rs.next()) {
@@ -342,7 +338,7 @@ public class HomePage extends JFrame {
             ex.printStackTrace();
         }
         try {
-            String sql = "SELECT room_number FROM minihotel.room as r,minihotel.room_status as s where r.status_id = s.status_id AND r.status_id = 3";
+            String sql = "SELECT room_number FROM room as r, room_status as s where r.status_id = s.status_id AND r.status_id = 3";
             pre = con.prepareStatement(sql);
             rs = pre.executeQuery();
             while (rs.next()) {
@@ -455,7 +451,7 @@ public class HomePage extends JFrame {
         }
 
         try {
-            String sql = "SELECT COUNT(room_id) FROM minihotel.room where status_id = 1";
+            String sql = "SELECT COUNT(room_id) FROM room where status_id = 1";
             pre = con.prepareStatement(sql);
             rs = pre.executeQuery();
             while (rs.next()) {
@@ -466,7 +462,7 @@ public class HomePage extends JFrame {
         }
 
         try {
-            String sql = "SELECT COUNT(room_id) FROM minihotel.room where status_id = 2";
+            String sql = "SELECT COUNT(room_id) FROM room where status_id = 2";
             pre = con.prepareStatement(sql);
             rs = pre.executeQuery();
             while (rs.next()) {
@@ -477,7 +473,7 @@ public class HomePage extends JFrame {
         }
 
         try {
-            String sql = "SELECT COUNT(room_id) FROM minihotel.room where status_id = 3";
+            String sql = "SELECT COUNT(room_id) FROM room where status_id = 3";
             pre = con.prepareStatement(sql);
             rs = pre.executeQuery();
             while (rs.next()) {
@@ -523,7 +519,7 @@ public class HomePage extends JFrame {
     private JLabel available;
     private JLabel repair;
     private JButton checkInButton;
-    private JLabel photo;
+     JLabel photo;
 
 
 }

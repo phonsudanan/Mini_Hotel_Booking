@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class CalendarSearch extends JFrame {
-    Booking b = new Booking();
     Login l = new Login();
     static CalendarDateInDateOut c = new CalendarDateInDateOut();
     static JDateChooser dateChooserStart =  c.calendarIn();
@@ -39,31 +38,35 @@ public class CalendarSearch extends JFrame {
         bookButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                dateStart = c.pattern.format(dateChooserStart.getDate());
-                dateEnd = c.pattern.format(dateChooserEnd.getDate());
-                DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                LocalDate date1 = LocalDate.parse(dateStart, df);
-                LocalDate date2 = LocalDate.parse(dateEnd, df);
-                daysBetween = ChronoUnit.DAYS.between(date1, date2);
-                System.out.println(dateStart +"\n"+ dateEnd);
-
-                HomePage homePage = null;
-                try {
-                    homePage = new HomePage();
-                    homePage.emp_name.setText(l.uName);
-                    homePage.changeStatusRoom();
-                } catch (ParseException ex) {
-                    throw new RuntimeException(ex);
-                }
-                homePage.setVisible(true);
-                setVisible(false);
+                setBookButton();
             }
         });
     }
 
+    void setBookButton(){
+        dateStart = c.pattern.format(dateChooserStart.getDate());
+        dateEnd = c.pattern.format(dateChooserEnd.getDate());
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate date1 = LocalDate.parse(dateStart, df);
+        LocalDate date2 = LocalDate.parse(dateEnd, df);
+        daysBetween = ChronoUnit.DAYS.between(date1, date2);
+//        System.out.println(dateStart +"\n"+ dateEnd);
+
+        HomePage homePage = null;
+        try {
+            homePage = new HomePage();
+            homePage.emp_name.setText(l.uName);
+            homePage.changeStatusRoom();
+        } catch (ParseException ex) {
+            throw new RuntimeException(ex);
+        }
+        homePage.setVisible(true);
+        setVisible(false);
+    }
+
     private JButton bookButton;
     JPanel panelOut;
-    public JPanel panelIn;
+    JPanel panelIn;
     private JPanel home;
 
 

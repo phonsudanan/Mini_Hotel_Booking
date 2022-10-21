@@ -58,7 +58,7 @@ public class Checkin extends JInternalFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 String clickButton = button.getActionCommand();
-                System.out.println(clickButton);
+//                System.out.println(clickButton);
 
                 try {
                     String sql = " SELECT room_number, booking_no, customer_name, check_in, check_out, days, total_price "

@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.ParseException;
 
-public class Login extends JFrame{
+public class Login extends JFrame {
 
     private Connection con = Connect.ConnectDB();
 
@@ -17,11 +17,13 @@ public class Login extends JFrame{
     private JButton logIn;
     private JButton reset;
 
-    public  static  String id,uName;
-    public  static  int level;
+    public static String id, uName, stringImg;
+    public static int level;
+
     public static void main(String[] args) throws ParseException {
         new Login().setVisible(true);
     }
+
     public Login() throws ParseException {
         UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
         setTitle("เข้าสู่ระบบ");
@@ -46,26 +48,30 @@ public class Login extends JFrame{
                     String sql = "SELECT * FROM employee";
                     PreparedStatement pre = con.prepareStatement(sql);
                     ResultSet rs = pre.executeQuery(sql);
-                    while (rs.next()){
-                        if ( rs.getString("username").equals(u) && rs.getString("password").equals(p) ){
-                             id = rs.getString("emp_id");
+                    int i = 0;
+                    while (rs.next()) {
+                        if (rs.getString("username").equals(u) && rs.getString("password").equals(p)) {
+                            id = rs.getString("emp_id");
                             uName = rs.getString("name");
                             level = rs.getInt("level_id");
-//                            System.out.println(id +"\n"+ level);
+                            stringImg = "C:\\Users\\phons\\IdeaProjects\\Mini_Hotel_Booking\\imageEmployee\\"
+                                    + id + ".png";
+                            i = 1;
                             CalendarSearch s = new CalendarSearch();
                             s.setVisible(true);
                             setVisible(false);
                             break;
                         }
                     }
-                } catch (Exception ex) {
+                    if (i == 0) {
                         JOptionPane.showMessageDialog
                                 (null, "คุณใส่ Username หรือ Password ไม่ถูกต้อง", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         });
-
 
 
     }

@@ -33,10 +33,10 @@ public class PersonalDetails extends JFrame {
     private JTextField textId;
     private JLabel photo;
     private JButton choooseFileButton;
-    BufferedImage newImg = null;
+    BufferedImage newImg;
+    ImageIcon imgEmployee;
     Employee emp = new Employee();
-    ImageIcon imgEmp;
-    Login login = new Login();
+    Login l = new Login();
     PersonalDetails() throws ParseException {
         UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
         setTitle("ข้อมูลส่วนตัว");
@@ -48,6 +48,7 @@ public class PersonalDetails extends JFrame {
         textId.setEditable(false);
         textPosition.setEditable(false);
         textLevel.setEditable(false);
+
 
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -71,35 +72,37 @@ public class PersonalDetails extends JFrame {
         choooseFileButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-                JFileChooser fileOpen = new JFileChooser();
-                fileOpen.setFont(new Font("Leelawadee", Font.PLAIN, 12));
-                FileNameExtensionFilter filterImage = new FileNameExtensionFilter ("Image File", "png", "jpg");
-                fileOpen.addChoosableFileFilter(filterImage);
-                fileOpen.setAcceptAllFileFilterUsed ( false );
-                int ret = fileOpen.showDialog(null, "Choose File");
-                if ( ret == JFileChooser.APPROVE_OPTION ){
-                    String file = fileOpen.getSelectedFile().toString();
-                    Path source = Paths.get(file);
-                     //reSize image
-                    try {
-                        newImg = emp.resizeImage(source, 150, 150);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    imgEmp = new ImageIcon(newImg);
-                    photo.setText("");
-                    photo.setIcon(imgEmp);
-                }
+                setChoooseFileButton();
             }
 
         });
     }
 
+    private void setChoooseFileButton(){
+        JFileChooser fileOpen = new JFileChooser();
+        fileOpen.setFont(new Font("Leelawadee", Font.PLAIN, 12));
+        FileNameExtensionFilter filterImage = new FileNameExtensionFilter ("Image File", "png", "jpg");
+        fileOpen.addChoosableFileFilter(filterImage);
+        fileOpen.setAcceptAllFileFilterUsed ( false );
+        int ret = fileOpen.showDialog(null, "Choose File");
+        if ( ret == JFileChooser.APPROVE_OPTION ){
+            String file = fileOpen.getSelectedFile().toString();
+            Path source = Paths.get(file);
+            try {
+                newImg = emp.resizeImage(source, 150, 150);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            imgEmployee = new ImageIcon(newImg);
+            photo.setText("");
+            photo.setIcon(imgEmployee);
+        }
+    }
+
     private void showPersonalDetails(){
         try {
             String sql = " SELECT emp_id,name,address,phone,pos_th,level_name,username,password  FROM employee as e, position as p, position_level as pl "
-                    + "  WHERE  e.pos_id = p.pos_id AND e.level_id = pl.level_id AND emp_id = " + login.id;
+                    + "  WHERE  e.pos_id = p.pos_id AND e.level_id = pl.level_id AND emp_id = " + l.id;
             pre = con.prepareStatement(sql);
             rs = pre.executeQuery();
 
@@ -114,11 +117,9 @@ public class PersonalDetails extends JFrame {
                 textUsername.setText(rs.getString("username"));
                 textPassword.setText(rs.getString("password"));
             }
-            String stringImg = "C:\\Users\\phons\\IdeaProjects\\Mini_Hotel_Booking\\imageEmployee\\"
-                    + textId.getText().trim() + ".png";
-            imgEmp = new ImageIcon(stringImg);
+            imgEmployee = new ImageIcon(l.stringImg);
             photo.setText("");
-            photo.setIcon(imgEmp);
+            photo.setIcon(imgEmployee);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -159,6 +160,7 @@ public class PersonalDetails extends JFrame {
                     }
                     if (pre.executeUpdate() != -1) {
                         JOptionPane.showMessageDialog(this, "แก้ไขข้อมูลเรียบร้อยแล้ว");
+                        setVisible(false);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

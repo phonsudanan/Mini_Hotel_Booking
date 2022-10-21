@@ -15,7 +15,7 @@ public class CheckinDetails extends CheckoutDetails {
             try {
                 int b = Integer.parseInt(booking_no.getText());
                 String sql = " UPDATE booking SET booking_status_id = 2 WHERE booking_no = " + b;
-                System.out.println(sql);
+//                System.out.println(sql);
                 pre = con.prepareStatement(sql);
                 if (pre.executeUpdate() != -1) {
                     JOptionPane.showMessageDialog(null, "CHECK-IN เรียบร้อย", "CHECK-IN", JOptionPane.INFORMATION_MESSAGE);
