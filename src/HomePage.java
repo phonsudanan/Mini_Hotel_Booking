@@ -24,15 +24,15 @@ public class HomePage extends JFrame {
     static JDesktopPane desktop;
     static JLayeredPane layeredPane;
 
-    public static void main(String[] args) throws ParseException {
-        UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
-        UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
-        new HomePage().setVisible(true);
-    }
-
-    public HomePage() throws ParseException {
+//    public static void main(String[] args) throws ParseException {
 //        UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
 //        UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
+//        new HomePage().setVisible(true);
+//    }
+
+    public HomePage() throws ParseException {
+        UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
+        UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
 
         setTitle("Homepage");
         setSize(1000, 600);
@@ -76,7 +76,7 @@ public class HomePage extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 Checkin checkin = new Checkin();
-                layeredPane.add(checkin, new Integer(2));
+                layeredPane.add(checkin, new Integer(1));
                 checkin.setVisible(true);
             }
         });
@@ -92,7 +92,7 @@ public class HomePage extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 BookingDetails bookingDetails = new BookingDetails();
-                layeredPane.add(bookingDetails, new Integer(4));
+                layeredPane.add(bookingDetails, new Integer(3));
                 bookingDetails.setVisible(true);
             }
         });
@@ -103,7 +103,7 @@ public class HomePage extends JFrame {
                     roomsButton.setEnabled(false);
                 } else {
                     Rooms room = new Rooms();
-                    layeredPane.add(room, new Integer(5));
+                    layeredPane.add(room, new Integer(4));
                     room.setVisible(true);
                 }
             }

@@ -17,11 +17,11 @@ public class CalendarSearch extends JFrame {
     static  String dateStart;
     static String dateEnd;
     static long daysBetween;
-    public static void main(String[] args) throws ParseException {
-        UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
-        UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
-        new CalendarSearch().setVisible(true);
-    }
+//    public static void main(String[] args) throws ParseException {
+//        UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
+//        UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
+//        new CalendarSearch().setVisible(true);
+//    }
 
     public CalendarSearch() throws ParseException {
         setTitle("เลือกวันที่เข้าพัก");
