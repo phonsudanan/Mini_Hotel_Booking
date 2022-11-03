@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Checkin extends JInternalFrame {
     private Connection con = Connect.ConnectDB();
@@ -25,7 +26,7 @@ public class Checkin extends JInternalFrame {
         setMaximizable(true);
 
         room.setLayout(new GridLayout(0, 4, 20, 10));  //row =0 มีแถวไม่จำกัด
-
+        ChengeStatus();
         checkinRoom();
 
     }
@@ -89,4 +90,16 @@ public class Checkin extends JInternalFrame {
         return null;
     }
 
-}
+    void  ChengeStatus() {
+        try {
+            String sql = "  UPDATE booking SET booking_status_id = 4 "
+            + " WHERE booking_status_id = 1 "
+            + " AND check_in <  CONCAT(YEAR(NOW())+543, '-', MONTH(NOW()), '-', DAY(NOW()))  ";
+            pre = con.prepareStatement(sql);
+            pre.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    }

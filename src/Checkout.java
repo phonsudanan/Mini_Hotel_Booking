@@ -26,7 +26,7 @@ public class Checkout extends JInternalFrame {
         setMaximizable(true);
 
         room.setLayout(new GridLayout(0, 4, 20, 10));  //row =0 มีแถวไม่จำกัด
-
+//        ChengeStatus();
         checkoutRoom();
 
     }
@@ -85,5 +85,17 @@ public class Checkout extends JInternalFrame {
         });
         return null;
     }
+
+//    void  ChengeStatus() {
+//        try {
+//            String sql = "  UPDATE booking SET booking_status_id = 3 "
+//                    + " WHERE booking_status_id = 2 "
+//                    + " AND check_out <  CONCAT(YEAR(NOW())+543, '-', MONTH(NOW()), '-', DAY(NOW()))  ";
+//            pre = con.prepareStatement(sql);
+//            pre.executeUpdate();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
 }

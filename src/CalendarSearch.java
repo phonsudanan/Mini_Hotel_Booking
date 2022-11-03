@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class CalendarSearch extends JFrame {
+
     Login l = new Login();
     static CalendarDateInDateOut c = new CalendarDateInDateOut();
     static JDateChooser dateChooserStart =  c.calendarIn();
@@ -44,6 +45,7 @@ public class CalendarSearch extends JFrame {
     }
 
     void setBookButton(){
+        HomePage homePage = null;
         dateStart = c.pattern.format(dateChooserStart.getDate());
         dateEnd = c.pattern.format(dateChooserEnd.getDate());
         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -52,7 +54,6 @@ public class CalendarSearch extends JFrame {
         daysBetween = ChronoUnit.DAYS.between(date1, date2);
 //        System.out.println(dateStart +"\n"+ dateEnd);
 
-        HomePage homePage = null;
         try {
             homePage = new HomePage();
             homePage.emp_name.setText(l.uName);

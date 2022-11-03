@@ -24,11 +24,6 @@ public class HomePage extends JFrame {
     static JDesktopPane desktop;
     static JLayeredPane layeredPane;
 
-//    public static void main(String[] args) throws ParseException {
-//        UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
-//        UIManager.put("InternalFrame.titleFont", new Font("Leelawadee", Font.PLAIN, 12));
-//        new HomePage().setVisible(true);
-//    }
 
     public HomePage() throws ParseException {
         UIManager.put("OptionPane.messageFont", new Font("Leelawadee", Font.PLAIN, 12));
@@ -70,6 +65,7 @@ public class HomePage extends JFrame {
                 s.panelIn.add(s.dateChooserStart, new GridBagLayout());
                 s.panelOut.add(s.dateChooserEnd, new GridBagLayout());
                 s.setVisible(true);
+                setVisible(false);
             }
         });
         checkInButton.addMouseListener(new MouseAdapter() {
